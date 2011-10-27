@@ -15,15 +15,24 @@
 </div>
 
 <aside id=sidebar>
-    <ul id=blogroll>
-    % for blog in config.items('blogroll'):
-        <li>
-            % favicon = helpers.braveicon.get_favicon(blog[1])
-            <img src="{{favicon}}" alt="" height=16 width=16>
-            <a href="{{blog[1]}}">{{blog[0]}}
-        </a>
-    % end
-    </ul>
+    <section>
+        <h1>Hallo</h1>
+        <p>
+            Blindtext, Blindtext, Blindtext.
+        </p>
+    </section>
+    <section>
+        <h1>Blogroll</h1>
+        <ul id=blogroll>
+        % for blog in config.items('blogroll'):
+            <li>
+                % favicon = helpers.braveicon.get_favicon(blog[1])
+                <img src="{{favicon}}" alt="" height=16 width=16>
+                <a href="{{blog[1]}}">{{blog[0]}}
+            </a>
+        % end
+        </ul>
+    </section>
 </aside>
 
 <footer>
