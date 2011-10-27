@@ -6,9 +6,20 @@
 <link rel="stylesheet" href="/static/decor.css">
 
 <hgroup>
-    <h1>{{config.get('blog', 'title')}}</h1>
-    <h2>{{config.get('blog', 'subtitle')}}</h2>
+    <h1 class=editable>{{config.get('blog', 'title')}}</h1>
+    <h2 class=editable>{{config.get('blog', 'subtitle')}}</h2>
 </hgroup>
+
+<header id=top>
+    % try:
+    %   auth[0]
+        <button id=edit>Editieren</button>
+        <button id=save disabled>Speichern</button>
+        <button id=abort disabled>Verwerfen</button>
+    % except TypeError:
+        <a href="/login">Login</a>
+    %end
+</header>
 
 <div id=main>
 % include
@@ -38,6 +49,14 @@
 
 <footer>
     <p>
-        Proudly made without PHP, Java, Perl, MySQL and Postgres
+        {{config.get('blog', 'footer')}}
     </p>
 </footer>
+
+% try:
+%   auth[0]
+<script src="/static/domready.js"></script>
+<script src="/static/buddleblag.js"></script>
+% except TypeError:
+%   pass
+% end

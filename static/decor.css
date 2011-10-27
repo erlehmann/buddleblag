@@ -1,6 +1,7 @@
 body {
-    border: 1px solid #2e3436;
+    background-attachment: scroll;
     background-image: url('/static/lines.png');
+    border: 1px solid #2e3436;
 }
 
 #blogroll {
@@ -15,4 +16,19 @@ body {
 
 #blogroll > li > img {
     vertical-align: sub;
+}
+
+button#edit {
+    background: #204a87;
+    color: #eeeeec;
+}
+
+button#save {
+    background: #4e9a06;
+    color: #eeeeec;
+}
+
+button#abort {
+    background: #ce5c00;
+    color: #eeeeec;
 }
