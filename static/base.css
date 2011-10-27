@@ -1,0 +1,121 @@
+* {
+    border: none;
+    background-color: inherit;
+    color: inherit;
+    font: inherit;
+    font-size: 100%;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    vertical-align: baseline;
+}
+
+[title] {
+    border-bottom: 1px dotted;
+}
+
+html {
+    font-family: sans-serif;
+}
+
+body {
+    padding: 3em;
+}
+
+h1 {
+    font-size: 3em;
+    line-height: 1;
+}
+
+h2,
+section h1 {
+    font-size: 2em;
+    line-height: 0.75;
+    margin: 0.75em 0;
+}
+
+h3,
+section section h1
+{
+    font-size: 1.5em;
+    line-height: 1;
+    margin: 1em 0;
+}
+
+figure,
+figure > * {
+    display: block;
+    width: 100%    
+}
+
+figure > audio {
+    height: 3em;
+}
+
+figure :last-child {
+    margin-top: 1.5em;
+}
+
+ol {
+    list-style-type: none;
+}
+
+ol,
+ul,
+p,
+footer {
+    display: block;
+    margin-top: 1.5em;
+}
+
+a {
+    border-bottom: 1px solid;
+}
+
+a[href=""]::after {
+    background-color: white;
+    color: red;
+    content: " (Defekter Link)";
+    font-weight: bold;
+}
+
+a:link {
+    color: #204a87;
+    background-color: #ffffff;
+}
+
+a:hover {
+    color: #ffffff;
+    background-color: #3465a4;
+    outline: 1px solid #3465a4;
+}
+
+a:visited {
+    color: #5c3566;
+    background-color: #ffffff;
+}
+
+a:visited:hover {
+    color: #ffffff;
+    background-color: #75507b;
+    outline: 1px solid #75507b;
+}
+
+a:focus {
+    outline: 2px solid #f57900;
+}
+
+a:active {
+    color: #ce5c00;
+    background-color: #ffffff;
+    outline: none;
+}
+
+i {
+    font-style: italic;
+}
+
+del {
+    text-decoration: line-through;
+}

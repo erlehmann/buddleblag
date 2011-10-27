@@ -1,0 +1,8 @@
+body {
+    border: 1px solid #2e3436;
+    background-image: url('/static/lines.png');
+}
+
+#blogroll {
+    list-style: none;
+}

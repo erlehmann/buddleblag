@@ -1,0 +1,27 @@
+body {
+    width: 58em;
+    margin: 3em auto;
+}
+
+footer {
+    clear: both;
+}
+
+#main, #sidebar {
+    margin: 1.5em auto;
+}
+
+#main {
+    float: left;
+    width: 34em;  /* <http://webtypography.net/Rhythm_and_Proportion/Horizontal_Motion/2.1.2/> */
+}
+
+#sidebar1 {
+    float: right;
+    width: 21em;  /* golden ratio */
+}
+
+#sidebar2 {
+    float: right;
+    width: 21em;  /* golden ratio */
+}
