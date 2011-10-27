@@ -61,7 +61,7 @@ via shortcut icon, and W3C snubs /favicon.ico, generally speaking."""
 
 	favicon_url = "%s/favicon.ico" % page_url
 	if requests.head(page_urlfavicon_url).ok:
-		url_cache.set(favicon_url)
+		url_cache.set(page_url, favicon_url,)
 		return favicon_url
 
 	return false
