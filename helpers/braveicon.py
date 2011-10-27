@@ -20,16 +20,25 @@
 
 from werkzeug.contrib.cache import SimpleCache
 from BeautifulSoup import BeautifulSoup
+from base64 import b64encode
 
 import requests
 
 url_cache = SimpleCache(3600)
 
-def get_favicon(page_url):
+def get_favicon(page_url, use_data_uri=False):
 	"""Fetches a site's favicon URL. Respects link rel="" declarations
 most importantly, per W3C spec, however, it favors 'shortcut icon'
 over /favicon.ico, as many software packages explicitly declare
 via shortcut icon, and W3C snubs /favicon.ico, generally speaking."""
+	def create_data_uri(url):
+		data = requests.get(url).content
+		return 'data:image/png;base64,' + b64encode(data)
+
+	def cache_url(key, value):
+		if use_data_uri:
+			value = create_data_uri(value)
+		url_cache.set(key, value)
 
 	if page_url.endswith("/"):
 		page_url = page_url[0:len(page_url)-1]
@@ -54,12 +63,12 @@ via shortcut icon, and W3C snubs /favicon.ico, generally speaking."""
 					(page_url, link['href'][1:len(link['href'])])
 
 			if requests.head(favicon_url).ok:
-				url_cache.set(page_url, favicon_url)
-				return favicon_url
+				cache_url(page_url, favicon_url)
+				return create_data_uri(favicon_url)
 
 	favicon_url = "%s/favicon.ico" % page_url
 	if requests.head(favicon_url).ok:
-		url_cache.set(page_url, favicon_url,)
-		return favicon_url
+		cache_url(page_url, favicon_url)
+		return create_data_uri(favicon_url)
 
 	return false

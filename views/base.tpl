@@ -26,7 +26,8 @@
         <ul id=blogroll>
         % for blog in config.items('blogroll'):
             <li>
-                % favicon = helpers.braveicon.get_favicon(blog[1])
+                % favicon = helpers.braveicon.get_favicon(blog[1],
+                %     use_data_uri=True)
                 <img src="{{favicon}}" alt="" height=16 width=16>
                 <a href="{{blog[1]}}">{{blog[0]}}
             </a>
