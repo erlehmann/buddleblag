@@ -3,11 +3,12 @@
 
 from bottle import debug, functools, redirect, request, route, run, static_file, view
 from model import Article, ArticleList
+from ConfigParser import RawConfigParser
 
-import ConfigParser
 import helpers
 
-config = ConfigParser.RawConfigParser()
+
+config = RawConfigParser()
 config.optionxform = str
 config.read('./buddelblag.config')
 
