@@ -40,10 +40,8 @@ via shortcut icon, and W3C snubs /favicon.ico, generally speaking."""
 
 	html = requests.get(page_url).content
 	soup = BeautifulSoup(html)
-	head = soup.html.head
-
-	head_links = head.findAll('link')
-	for link in head_links:
+	links = soup.findAll('link')
+	for link in links:
 
 		if link['rel'] == 'icon' or link['rel'] == 'shortcut icon':
 			if link['href'].startswith("http"):
@@ -60,7 +58,7 @@ via shortcut icon, and W3C snubs /favicon.ico, generally speaking."""
 				return favicon_url
 
 	favicon_url = "%s/favicon.ico" % page_url
-	if requests.head(page_urlfavicon_url).ok:
+	if requests.head(favicon_url).ok:
 		url_cache.set(page_url, favicon_url,)
 		return favicon_url
 
