@@ -18,42 +18,50 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import sys
+from werkzeug.contrib.cache import SimpleCache
 from BeautifulSoup import BeautifulSoup
+
 import requests
 
+url_cache = SimpleCache(3600)
 
-def get_favicon(url):
+def get_favicon(page_url):
 	"""Fetches a site's favicon URL. Respects link rel="" declarations
 most importantly, per W3C spec, however, it favors 'shortcut icon'
 over /favicon.ico, as many software packages explicitly declare
 via shortcut icon, and W3C snubs /favicon.ico, generally speaking."""
 
-	if url.endswith("/"):
-		url = url[0:len(url)-1]
+	if page_url.endswith("/"):
+		page_url = page_url[0:len(page_url)-1]
 
-	html = requests.get(url).content
+	cached_url = url_cache.get(page_url)
+	if cached_url:
+		return cached_url
+
+	html = requests.get(page_url).content
 	soup = BeautifulSoup(html)
 	head = soup.html.head
 
 	head_links = head.findAll('link')
 	for link in head_links:
-		sys.stderr.write(url + str(link) + link['rel'] + '\n')
 
 		if link['rel'] == 'icon' or link['rel'] == 'shortcut icon':
-			if requests.head(url).ok:
-				return link['href']
-			else:
-				if link['href'].startswith("//"):
-					link['href'] = url + link['href'][2:len(link['href'])]
-				if link['href'].startswith("/"):
-					link['href'] = url + link['href'][1:len(link['href'])]
-				absolute_url = "http://%s/%s" % (url, link['href'])
-				if requests.head(absolute_url).ok:
-					return absolute_url
+			if link['href'].startswith("http"):
+				favicon_url = link['href']
+			if link['href'].startswith("//"):
+				favicon_url = "%s/%s" % \
+					(page_url, link['href'][2:len(link['href'])])
+			if link['href'].startswith("/"):
+				favicon_url = "%s/%s" % \
+					(page_url, link['href'][1:len(link['href'])])
 
-	url = "%s/favicon.ico" % url
-	if requests.head(url).ok:
-		return url
+			if requests.head(favicon_url).ok:
+				url_cache.set(page_url, favicon_url)
+				return favicon_url
+
+	favicon_url = "%s/favicon.ico" % page_url
+	if requests.head(page_urlfavicon_url).ok:
+		url_cache.set(favicon_url)
+		return favicon_url
 
 	return false
