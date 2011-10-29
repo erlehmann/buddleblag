@@ -36,6 +36,11 @@ def index():
     posts = [Post(title) for title in PostList().titles]
     return {'posts': posts, 'auth': request.auth}
 
+@route('/post/:title')
+@view('post')
+def single_page(title):
+    post = Post(unquote(title))
+    return {'post': post, 'auth': request.auth}
 
 @route('/login')
 def auth():
@@ -59,13 +64,6 @@ def send_post(title):
     title = unquote(title)
     return static_file(title, root='./posts/')
 
-@route('/posts/:title')
-def single_page(title):
-    title = unquote(title)
-    article = Article(title)
-    c.title = article.get_title()
-    c.content = article.get_content()
-    return render('article')
 
 debug(True)
 run(host='localhost', port=8080, reloader=True)
