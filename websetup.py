@@ -9,15 +9,15 @@ from dulwich.objects import Blob, Tree, Commit, parse_timezone
 
 # create repository directory
 try:
-    mkdir("articles")
+    mkdir("posts")
 except OSError:
     pass
 
 # create repository
 try:
-    repo = Repo.init("articles")
+    repo = Repo.init("posts")
 except OSError:
-    repo = Repo("articles")
+    repo = Repo("posts")
 
 # create blob
 blob = Blob.from_string("""

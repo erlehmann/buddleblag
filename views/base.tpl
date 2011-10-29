@@ -6,20 +6,9 @@
 <link rel="stylesheet" href="/static/decor.css">
 
 <hgroup>
-    <h1 class=editable>{{config.get('blog', 'title')}}</h1>
-    <h2 class=editable>{{config.get('blog', 'subtitle')}}</h2>
+    <h1 id=blog-title class=editable>{{config.get('blog', 'title')}}</h1><br>
+    <h2 id=blog-subtitle class=editable>{{config.get('blog', 'subtitle')}}</h2>
 </hgroup>
-
-<header id=top>
-    % try:
-    %   auth[0]
-        <button id=edit>Editieren</button>
-        <button id=save disabled>Speichern</button>
-        <button id=abort disabled>Verwerfen</button>
-    % except TypeError:
-        <a href="/login">Login</a>
-    %end
-</header>
 
 <div id=main>
 % include

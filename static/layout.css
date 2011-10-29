@@ -4,6 +4,14 @@ body {
     width: 58em;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    display: inline-block;
+}
+
+article {
+    position: relative;
+}
+
 footer {
     clear: both;
 }
@@ -29,4 +37,12 @@ footer {
 #sidebar {
     float: right;
     width: 21em;  /* golden ratio */
+}
+
+a.permalink {
+    font-size: 2em;
+    left: -1em;
+    line-height: 0.75;
+    margin: 0.75em 0;
+    position: absolute;
 }

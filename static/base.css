@@ -123,38 +123,12 @@ i {
 del {
     text-decoration: line-through;
 }
-/*
-button {
-    background-color: #eeeeec;
-    border: 1px solid #babdb6;
-    border-radius: 0.75em;
-    color: #2e3436;
-    cursor: pointer;
-    display: inline-block;
-    padding: 0.75em;
-}
-
-button:hover {
-    border-color: #2e3436;
-}
-*/
 
 button {
-    background-color: #2e3436;
-    border-radius: 0.75em;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
-    color: #eeeeec;
-    cursor: pointer;
-    display: inline-block;
+    border: 1px solid #d3d7cf;
     font-weight: bold;
     padding: 0.75em;
-    text-decoration: none;
-    text-shadow: 0 -1px 3px rgba(0,0,0,0.5);
-    /*border-bottom: 1px solid rgba(0, 0, 0, 0.25);*/
-    position: relative;
 }
 
 button:hover {
-    opacity: 1;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
 }

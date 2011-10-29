@@ -1,7 +1,25 @@
+[contenteditable] {
+    border: 1px solid;
+    background: white;
+}
+
+body, article {
+    outline: 1px solid black;
+    outline-offset: 4px;
+}
+
+.editable {
+    outline: 1px dashed #98abb9;
+    outline-offset: 2px;
+}
+
 body {
+    background-color: #eeeeec;
+    color: #2e3436;
+    /*
     background-attachment: scroll;
     background-image: url('/static/lines.png');
-    border: 1px solid #2e3436;
+    */
 }
 
 #blogroll {
@@ -11,7 +29,7 @@ body {
 #blogroll > li {
     display: block;
     font-size: 1.5em;
-    height: 2em;
+    height: 1.3333em;
 }
 
 #blogroll > li > img {
@@ -19,8 +37,8 @@ body {
 }
 
 button#edit {
-    background: #204a87;
-    color: #eeeeec;
+    background: #cce2ff;
+    color: #001633;
 }
 
 button#save {

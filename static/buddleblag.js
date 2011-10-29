@@ -1,21 +1,19 @@
-"use strict";
+'use strict'
 
 DomReady.ready(function() {
-    makeAllContentEditable()
-});
+    addEditHandlers()
+})
 
-function collectionToArray(collection) {
-    var array = [];
-    var i = collection.length;
-    while (i--) {
-        array.push(collection[i]);
+function makeEditable() {
+    var editable = document.getElementsByClassName('editable')
+    for (var e in editable) {
+        editable[e].contentEditable = true
     }
-    return array;
 }
 
-function makeAllContentEditable() {
-    var editElements = collectionToArray(document.getElementsByClassName("editable"));
-    for (e in editElements) {
-        e.contentEditable = !e.isContentEditable;
+function addEditHandlers() {
+    var editableElements = document.getElementsByClassName('editable')
+    for (e in editableElements) {
+        editableElements[e].onclick = "makeEditable()"
     }
 }

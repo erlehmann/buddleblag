@@ -2,10 +2,12 @@ from dulwich.repo import Repo
 from dulwich.objects import Blob, Tree, Commit, parse_timezone
 from time import time
 
-class Article(object):
+import magic
+
+class Post(object):
     def __init__(self, title):
-        self.title =  title.encode('UTF-8')
-        self.repo = Repo('articles')
+        self.title =  title.decode('UTF-8')
+        self.repo = Repo('posts')
 
         self.head = self.repo.get_object(self.repo.head())
         self.tree = self.repo.get_object(self.head.tree)
@@ -21,6 +23,15 @@ class Article(object):
 
     def get_content(self):
         return self.content
+
+    def get_mime_type(self):
+        def mime(buffer):
+            ms = magic.open(magic.MAGIC_MIME)
+            ms.load()
+            return ms.buffer(buffer)
+        return mime(self.get_content())
+
+    mime_type = property(get_mime_type)
 
     def get_title(self):
         return self.title
@@ -57,11 +68,13 @@ class Article(object):
     def update_title(self, new_title):
         pass
 
-class ArticleList(object):
+class PostList(object):
     def __init__(self):
-        self.repo = Repo('articles')
+        self.repo = Repo('posts')
         self.head = self.repo.get_object(self.repo.head())
         self.tree = self.repo.get_object(self.head.tree)
 
-    def get_article_titles(self):
-        return [a for a in self.tree]
+    def get_titles(self):
+        return [p for p in self.tree]
+
+    titles = property(get_titles)

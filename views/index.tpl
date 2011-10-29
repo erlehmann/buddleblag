@@ -1,12 +1,28 @@
 %rebase base config=config, helpers=helpers, auth=auth
 
 <section>
-    % for a in articles:
-        <article>
-            <h1 class=editable>{{a.title}}</h1>
-            <div class=editable>
-                {{! helpers.sanitize_html(a.content)}}
-            </div>
-        </article>
+
+    % for p in posts:
+    <article>
+        <a href="/{{helpers.quote(p.title)}}" class=permalink>#</a>
+
+        % if p.mime_type.startswith('text/'):
+        <h1 class=editable>{{p.title}}</h1>
+        <div class=editable>
+            {{! helpers.sanitize_html(p.content)}}
+        </div>
+        %end
+
+        % if p.mime_type.startswith('image/'):
+        <figure>
+            <img src="/raw/{{helpers.quote(p.title)}}">
+            <figcaption>
+                {{p.title}}
+            </figcaption>
+        <figure>
+        % end
+
+    </article>
     % end
+
 </section>

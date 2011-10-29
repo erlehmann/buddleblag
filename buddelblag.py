@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from bottle import debug, functools, HTTPError, redirect, request, route, run, static_file, view
-from model import Article, ArticleList
+from urllib2 import unquote
+from model import Post, PostList
 from ConfigParser import RawConfigParser
 
 import helpers
@@ -32,13 +33,8 @@ def logged_in_user(auth):
 @route('/')
 @view('index')
 def index():
-    articles = []
-
-    list = ArticleList()
-    titles = list.get_article_titles()
-    articles = [Article(title) for title in titles]
-
-    return {'articles': articles, 'auth': request.auth}
+    posts = [Post(title) for title in PostList().titles]
+    return {'posts': posts, 'auth': request.auth}
 
 
 @route('/login')
@@ -56,13 +52,16 @@ def auth():
 
 @route('/static/:filename')
 def send_static(filename):
-    ## FIXME: paranoia
     return static_file(filename, root='./static/')
 
+@route('/raw/:title')
+def send_post(title):
+    title = unquote(title)
+    return static_file(title, root='./posts/')
 
-@route('/:title')
+@route('/posts/:title')
 def single_page(title):
-    ## FIXME: paranoia
+    title = unquote(title)
     article = Article(title)
     c.title = article.get_title()
     c.content = article.get_content()
