@@ -71,4 +71,4 @@ via shortcut icon, and W3C snubs /favicon.ico, generally speaking."""
 		cache_url(page_url, favicon_url)
 		return create_data_uri(favicon_url)
 
-	return false
+	return False
