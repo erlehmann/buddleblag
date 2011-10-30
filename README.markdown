@@ -15,6 +15,14 @@ Installation and Setup
 Caution: This is an early release and lacks functionality.
 
 
+License
+=======
+
+Buddleblag is free software: you can redistribute it and/or modify it under the terms of the [GNU Affero General Public License][6] as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+Buddleblag contains python-magic written by Adam Hupp <adam at hupp.org>, distributed under the [PSF License][7].
+
+
 Testing
 =======
 
@@ -30,3 +38,7 @@ Haha, no.
 [4]: http://python-requests.org/
 
 [5]: http://werkzeug.pocoo.org/
+
+[6]: http://www.gnu.org/licenses/agpl-3.0.html
+
+[7]: http://www.python.org/psf/license/
