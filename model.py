@@ -25,11 +25,8 @@ class Post(object):
         return self.content
 
     def get_mime_type(self):
-        def mime(buffer):
-            ms = magic.open(magic.MAGIC_MIME)
-            ms.load()
-            return ms.buffer(buffer)
-        return mime(self.get_content())
+        ms = magic.Magic(magic.MAGIC_MIME)
+        return ms.from_buffer(self.get_content())
 
     mime_type = property(get_mime_type)
 
