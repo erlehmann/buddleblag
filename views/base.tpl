@@ -23,19 +23,21 @@
             Blindtext, Blindtext, Blindtext.
         </p>
     </section>
+    % for section in config.sidebar.sections():
     <section>
-        <h1>Blogroll</h1>
-        <ul id=blogroll>
-        % for blog in config.items('blogroll'):
+        <h1>{{section}}</h1>
+        <ul>
+        % for (title, url) in config.sidebar.items(section):
             <li>
-                % favicon = helpers.braveicon.get_favicon(blog[1],
+                % favicon = helpers.braveicon.get_favicon(url,
                 %     use_data_uri=True)
                 <img src="{{favicon}}" alt="" height=16 width=16>
-                <a href="{{blog[1]}}">{{blog[0]}}
+                <a href="{{url}}">{{title}}
             </a>
         % end
         </ul>
     </section>
+    % end
 </aside>
 
 <footer>

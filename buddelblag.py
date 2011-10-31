@@ -8,12 +8,16 @@ from ConfigParser import RawConfigParser
 
 import helpers
 
-config = RawConfigParser()
-config.optionxform = str
-config.read('./buddelblag.config')
+def get_config(filename):
+    config = RawConfigParser()
+    config.optionxform = str  # case sensitivity
+    config.read(filename)
+    return config
 
-view = functools.partial(view, config=config, helpers=helpers) 
+config = get_config('./buddelblag.config')
+config.sidebar = get_config('./sidebar.config')
 
+view = functools.partial(view, config=config, helpers=helpers)
 
 def logged_in(auth):
     try:
