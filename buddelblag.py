@@ -26,9 +26,22 @@ def logged_in(auth):
             return True
     return False
 
-def logged_in_user(auth):
-    if logged_in(auth):
-        return auth[0]
+
+def auth_required():
+    def decorator(view):
+        def wrapper(*args, **kwargs):
+            if logged_in(request.auth):
+                return view(*args, **kwargs)
+            return HTTPError(401, 'Access denied!', 
+                header={'WWW-Authenticate': 'Basic realm="%s"' % \
+                    config.get('blog', 'title')})
+        return wrapper
+    return decorator
+
+
+@route('/static/:filename')
+def send_static(filename):
+    return static_file(filename, root='./static/')
 
 @route('/')
 @view('index')
@@ -36,11 +49,40 @@ def index():
     posts = [Post(title) for title in PostList().titles]
     return {'posts': posts, 'auth': request.auth}
 
-@route('/post/:title')
+@route('/:title', method='GET')
 @view('post')
-def single_page(title):
+def view_page(title):
     post = Post(unquote(title))
     return {'post': post, 'auth': request.auth}
+
+@route('/:title', method='POST')
+@auth_required()
+@view('post')
+def commit_page(title):
+    content = request.POST['content']
+    if content[-1] != '\n':
+        content += '\n'
+
+    name = auth[0]
+    email = config.get('emails', auth[0])
+    message = request.POST['message']
+
+    post = Post(title)
+    post.update_content(content, name, email, message)
+    redirect('/' + title)
+
+@route('/:title/edit')
+@auth_required()
+@view('edit')
+def edit_page(title):
+    post = Post(unquote(title))
+    return {'post': post, 'auth': request.auth}
+
+
+@route('/:title/raw')
+def send_post(title):
+    title = unquote(title)
+    return static_file(title, root='./posts/')
 
 @route('/login')
 def auth():
@@ -53,16 +95,6 @@ def auth():
     return HTTPError(401, 'Access denied!', header={ \
         'WWW-Authenticate': 'Basic realm="%s"' % \
             config.get('blog', 'title')})
-
-
-@route('/static/:filename')
-def send_static(filename):
-    return static_file(filename, root='./static/')
-
-@route('/raw/:title')
-def send_post(title):
-    title = unquote(title)
-    return static_file(title, root='./posts/')
 
 
 debug(True)

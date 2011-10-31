@@ -6,7 +6,7 @@ import magic
 
 class Post(object):
     def __init__(self, title):
-        self.title =  title.decode('UTF-8')
+        self.title = title.decode('UTF-8')
         self.repo = Repo('posts')
 
         self.head = self.repo.get_object(self.repo.head())

@@ -12,6 +12,18 @@ article {
     position: relative;
 }
 
+p, textarea, input {
+    display: block;
+    width: 100%;
+}
+
+button, input, textarea {
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
 footer {
     clear: both;
 }
@@ -39,10 +51,18 @@ footer {
     width: 21em;  /* golden ratio */
 }
 
-a.permalink {
+a.permalink,
+a.editlink {
     font-size: 2em;
-    left: -1em;
     line-height: 0.75;
     margin: 0.75em 0;
     position: absolute;
+}
+
+a.permalink {
+    left: -1em;
+}
+
+a.editlink {
+    left: -2em;
 }

@@ -1,7 +1,8 @@
-<a href="/post/{{helpers.quote(post.title)}}" class=permalink>#</a>
+<a href="/{{helpers.quote(post.title)}}" class=permalink>#</a>
+<a href="/{{helpers.quote(post.title)}}/edit" class=editlink>✎</a>
 
 % if post.mime_type.startswith('text/'):
-<h1 class=editable>{{post.title}}</h1>
+<h1>{{post.title}}</h1>
 <div class=editable>
     {{! helpers.sanitize_html(post.content)}}
 </div>
@@ -9,7 +10,7 @@
 
 % if post.mime_type.startswith('image/'):
 <figure>
-    <img src="/raw/{{helpers.quote(post.title)}}">
+    <img src="/{{helpers.quote(post.title)}}/raw">
     <figcaption>
         {{post.title}}
     </figcaption>

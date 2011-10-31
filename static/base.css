@@ -65,10 +65,7 @@ ol {
     list-style-type: none;
 }
 
-ol,
-ul,
-p,
-footer {
+ol, ul, p, label, textarea, footer {
     display: block;
     margin-top: 1.5em;
 }
@@ -124,7 +121,8 @@ del {
     text-decoration: line-through;
 }
 
-button {
+button,
+input[type=submit] {
     border: 1px solid #d3d7cf;
     font-weight: bold;
     padding: 0.75em;

@@ -1,11 +1,7 @@
-[contenteditable] {
-    border: 1px solid;
+[contenteditable],
+input, textarea {
+    outline: 1px solid;
     background: white;
-}
-
-body, article {
-    outline: 1px solid black;
-    outline-offset: 4px;
 }
 
 .editable {
@@ -15,11 +11,13 @@ body, article {
 
 body {
     background-color: #eeeeec;
-    color: #2e3436;
-    /*
     background-attachment: scroll;
     background-image: url('/static/lines.png');
-    */
+    color: #2e3436;
+}
+
+button {
+    appearance: button;
 }
 
 #blogroll {
