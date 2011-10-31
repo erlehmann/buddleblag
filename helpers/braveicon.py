@@ -19,7 +19,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from werkzeug.contrib.cache import SimpleCache
-from BeautifulSoup import BeautifulSoup
+from html5lib.html5parser import HTMLParser
 from base64 import b64encode
 
 import requests
@@ -48,19 +48,23 @@ via shortcut icon, and W3C snubs /favicon.ico, generally speaking."""
 		return cached_url
 
 	html = requests.get(page_url).content
-	soup = BeautifulSoup(html)
-	links = soup.findAll('link')
-	for link in links:
 
-		if link['rel'] == 'icon' or link['rel'] == 'shortcut icon':
-			if link['href'].startswith("http"):
-				favicon_url = link['href']
-			if link['href'].startswith("//"):
+	p = HTMLParser()
+	tree = p.parse(html)
+	links = [e for e in tree if (e.name == 'link')]
+
+	for link in links:
+		attributes = link.attributes
+
+		if attributes['rel'] == 'icon' or attributes['rel'] == 'shortcut icon':
+			if attributes['href'].startswith("http"):
+				favicon_url = attributes['href']
+			if attributes['href'].startswith("//"):
 				favicon_url = "%s/%s" % \
-					(page_url, link['href'][2:len(link['href'])])
-			if link['href'].startswith("/"):
+					(page_url, attributes['href'][2:len(attributes['href'])])
+			if attributes['href'].startswith("/"):
 				favicon_url = "%s/%s" % \
-					(page_url, link['href'][1:len(link['href'])])
+					(page_url, attributes['href'][1:len(attributes['href'])])
 
 			if requests.head(favicon_url).ok:
 				cache_url(page_url, favicon_url)
