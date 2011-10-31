@@ -56,7 +56,7 @@ via shortcut icon, and W3C snubs /favicon.ico, generally speaking."""
 	for link in links:
 		attributes = link.attributes
 
-		if attributes['rel'] == 'icon' or attributes['rel'] == 'shortcut icon':
+		if 'icon' in attributes['rel'].split():
 			if attributes['href'].startswith("http"):
 				favicon_url = attributes['href']
 			if attributes['href'].startswith("//"):
