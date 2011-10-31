@@ -5,10 +5,12 @@
 <link rel="stylesheet" href="/static/layout.css">
 <link rel="stylesheet" href="/static/decor.css">
 
-<hgroup>
-    <h1 id=blog-title class=editable>{{config.get('blog', 'title')}}</h1><br>
-    <h2 id=blog-subtitle class=editable>{{config.get('blog', 'subtitle')}}</h2>
-</hgroup>
+<header>
+    <hgroup>
+        <h1 id=blog-title class=editable>{{config.get('blog', 'title')}}</h1>
+        <h2 id=blog-subtitle class=editable>{{config.get('blog', 'subtitle')}}</h2>
+    </hgroup>
+</header>
 
 <div id=main>
 % include

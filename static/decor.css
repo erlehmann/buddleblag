@@ -9,6 +9,20 @@ input, textarea {
     outline-offset: 2px;
 }
 
+html::before,
+a {
+    background-color: #eeeeec !important;
+    color: #2e3436 !important;
+}
+
+body > header,
+a:hover {
+    background-color: #2e3436 !important;
+    border-bottom-color: #2e3436 !important;
+    color: #eeeeec !important;
+    outline-color: #2e3436 !important;
+}
+
 body {
     background-color: #eeeeec;
     background-attachment: scroll;

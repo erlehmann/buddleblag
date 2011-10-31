@@ -1,5 +1,12 @@
+html::before {
+    content: "";
+    display: block;
+    border: 6em solid;
+    margin-bottom: -7.5em;
+}
+
 body {
-    margin: 3em auto;
+    margin: 0 auto;
     position: relative;
     width: 58em;
 }
