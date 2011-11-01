@@ -1,75 +1,76 @@
-html::before {
-    content: "";
+* {
+    max-width: 100%;
+}
+
+body,
+body > header,
+body > aside,
+body > footer {
     display: block;
-    border: 6em solid;
-    margin-bottom: -7.5em;
 }
 
-body {
-    margin: 0 auto;
-    position: relative;
-    width: 58em;
+body > header {
+    margin-bottom: 4.5em;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    display: inline-block;
+body > aside {
+    z-index: -1;
 }
 
-article {
-    position: relative;
+@media screen and (min-width:33em) {
+    body {
+        margin: 3em auto;
+        width: 33em;
+    }
 }
 
-p, textarea, input {
-    display: block;
-    width: 100%;
+@media screen and (max-width:63em) {
+    body {
+        margin: 3em 1.5em;
+    }
 }
 
-button, input, textarea {
-    -moz-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
+@media screen and (min-width: 63em) {
+    body {
+        margin-left: 16.5em;
+        margin-right: 3em;
+    }
+
+    body > aside:nth-of-type(1) {
+        margin-left: -13.5em;
+        position: fixed;
+        top: 12em;
+        width: 12em;
+    }
 }
 
-footer {
-    clear: both;
+@media screen and (max-width:84.5em) {
+    body > aside:nth-of-type(2) li {
+        display: inline-block;
+        padding: 0.75em;
+    }
 }
 
-#top {
-    display: block;
-    position: absolute;
-    top: 3em;
-    right: 3em;
-    height: 3em;
-    text-align: right;
+@media screen and (min-width: 84.5em) {
+    body {
+        margin-left: 16.5em;
+        margin-right: 24.5em;
+    }
+
+    body > aside:nth-of-type(2) {
+        margin-left: 36em;
+        position: absolute;
+        top: 12em;
+        width: 20em;
+    }
 }
 
-#main, #sidebar {
-    margin: 1.5em auto;
+@media screen and (min-width: 106em) {
+    body {
+        margin: 3em auto;
+    }
 }
 
-#main {
-    float: left;
-    width: 34em;  /* <http://webtypography.net/Rhythm_and_Proportion/Horizontal_Motion/2.1.2/> */
-}
-
-#sidebar {
-    float: right;
-    width: 21em;  /* golden ratio */
-}
-
-a.permalink,
-a.editlink {
-    font-size: 2em;
-    line-height: 0.75;
-    margin: 0.75em 0;
-    position: absolute;
-}
-
-a.permalink {
-    left: -1em;
-}
-
-a.editlink {
-    left: -2em;
+body > footer {
+    margin: 4.5em auto -6em;
 }

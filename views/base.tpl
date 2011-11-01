@@ -12,17 +12,14 @@
     </hgroup>
 </header>
 
-<div id=main>
-% include
-</div>
-
-<aside id=sidebar>
+<aside>
     <section>
-        <h1>Hallo</h1>
-        <p>
-            Blindtext, Blindtext, Blindtext.
-        </p>
     </section>
+</aside>
+
+% include
+
+<aside>
     % for section in config.sidebar.sections():
     <section>
         <h1>{{section}}</h1>

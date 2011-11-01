@@ -1,64 +1,42 @@
-[contenteditable],
-input, textarea {
-    outline: 1px solid;
-    background: white;
-}
-
-.editable {
-    outline: 1px dashed #98abb9;
-    outline-offset: 2px;
-}
-
 html::before,
-a {
-    background-color: #eeeeec !important;
-    color: #2e3436 !important;
+html::after {
+    content: '';
+    display: block;
+    height: 12em;
+    margin-bottom: -12em;
+    z-index: 1;
 }
 
-body > header,
-a:hover {
-    background-color: #2e3436 !important;
-    border-bottom-color: #2e3436 !important;
-    color: #eeeeec !important;
-    outline-color: #2e3436 !important;
+
+body > header {
+    z-index: 2;
 }
 
 body {
-    background-color: #eeeeec;
     background-attachment: scroll;
     background-image: url('/static/lines.png');
+}
+
+a:link {
+    background-color: #eeeeec;
     color: #2e3436;
+    outline-color: #eeeeec;
 }
 
-button {
-    appearance: button;
+a:focus {
+    outline-color: #f57900;
 }
 
-#blogroll {
-    list-style: none;
-}
-
-#blogroll > li {
-    display: block;
-    font-size: 1.5em;
-    height: 1.3333em;
-}
-
-#blogroll > li > img {
-    vertical-align: sub;
-}
-
-button#edit {
-    background: #cce2ff;
-    color: #001633;
-}
-
-button#save {
-    background: #4e9a06;
+html::before,
+html::after,
+body > header,
+body > footer,
+a:hover {
+    background-color: #2e3436;
     color: #eeeeec;
+    outline-color: #2e3436;
 }
 
-button#abort {
-    background: #ce5c00;
-    color: #eeeeec;
+body > aside li > img {
+    vertical-align: middle;
 }
