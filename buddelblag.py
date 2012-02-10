@@ -67,8 +67,8 @@ def commit_page(title):
     if content[-1] != '\n':
         content += '\n'
 
-    name = auth[0]
-    email = config.get('emails', auth[0])
+    name = request.auth[0]
+    email = config.get('emails', request.auth[0])
     message = request.POST['message']
 
     post = Post(title)
