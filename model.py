@@ -1,6 +1,6 @@
-from dulwich.repo import Repo
-from dulwich.objects import Blob, Tree, Commit, parse_timezone
-from time import time
+from git import Blob, Repo, IndexEntry
+from StringIO import StringIO
+from gitdb import IStream
 
 import magic
 
@@ -9,12 +9,9 @@ class Post(object):
         self.title = title.decode('UTF-8')
         self.repo = Repo('posts')
 
-        self.head = self.repo.get_object(self.repo.head())
-        self.tree = self.repo.get_object(self.head.tree)
-
         try:
-            sha = self.tree[self.title][1]
-            self.content = self.repo[sha].data
+            blob = self.repo.heads.master.commit.tree[self.title]
+            self.content = blob.data_stream.read()
         except KeyError:
             self.content = u'This space intentionally left blank.'
 
@@ -33,34 +30,21 @@ class Post(object):
     def get_title(self):
         return self.title
 
-    def update_content(self, new_content, author, email, message):
-        new_content = new_content.encode('UTF-8')
-        author = author.encode('UTF-8')
+    def update_content(self, content, author, email, message):
+        config = self.repo.config_writer()
+        config.set_value("user", "name", author.encode('UTF-8'));
+        config.set_value("user", "email", email.encode('UTF-8'));
+
+        content = content.encode('UTF-8')
         message = message.encode('UTF-8')
-        email = email.encode('UTF-8')
 
-        # create blob, add to existing tree
-        blob = Blob.from_string(new_content)
-        self.tree[self.title] = (0100644, blob.id)
+        filename = self.title
 
-        # commit
-        commit = Commit()
-        commit.tree = self.tree.id
-        commit.parents = [self.head.id]
-        commit.author = commit.committer = "%s <%s>" % (author, email)
-        commit.commit_time = commit.author_time = int(time())
-        tz = parse_timezone('+0100')[0]  # FIXME: get proper timezone
-        commit.commit_timezone = commit.author_timezone = tz
-        commit.encoding = 'UTF-8'
-        commit.message = message
-
-        # save everything
-        object_store = self.repo.object_store
-        object_store.add_object(blob)
-        object_store.add_object(self.tree)
-        object_store.add_object(commit)
-
-        self.repo.refs['refs/heads/master'] = commit.id
+        istream = IStream("blob", len(content), StringIO(content))
+        self.repo.odb.store(istream)
+        blob = Blob(self.repo, istream.binsha, 0100644, filename)
+        self.repo.index.add([IndexEntry.from_blob(blob)])
+        self.repo.index.commit(message)
 
     def update_title(self, new_title):
         pass
@@ -68,10 +52,9 @@ class Post(object):
 class PostList(object):
     def __init__(self):
         self.repo = Repo('posts')
-        self.head = self.repo.get_object(self.repo.head())
-        self.tree = self.repo.get_object(self.head.tree)
+        self.tree = self.repo.heads.master.commit.tree
 
     def get_titles(self):
-        return [p for p in self.tree]
+        return [b.path for b in self.tree.blobs]
 
     titles = property(get_titles)
