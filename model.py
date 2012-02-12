@@ -4,6 +4,8 @@ from gitdb import IStream
 
 import magic
 
+from datetime import datetime
+
 class Post(object):
     def __init__(self, title):
         self.title = title.decode('UTF-8')
@@ -13,10 +15,17 @@ class Post(object):
             blob = self.repo.heads.master.commit.tree[self.title]
             self.content = blob.data_stream.read()
         except KeyError:
-            self.content = u'This space intentionally left blank.'
+            self.content = u'This space intentionally left blank.' 
 
     def __str__(self):
         return self.title
+
+    def get_creation_date(self):
+        commits = [c for c in self.repo.iter_commits(paths=self.title)]
+        timestamp = commits[-1].committed_date
+        return datetime.fromtimestamp(timestamp)
+
+    creation_date = property(get_creation_date)
 
     def get_content(self):
         return self.content

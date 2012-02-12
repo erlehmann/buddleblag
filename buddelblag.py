@@ -6,6 +6,9 @@ from urllib2 import unquote
 from model import Post, PostList
 from ConfigParser import RawConfigParser
 
+import locale
+locale.setlocale(locale.LC_ALL, '')  # use system default locale
+
 import helpers
 
 def get_config(filename):

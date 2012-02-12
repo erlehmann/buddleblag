@@ -64,3 +64,8 @@ i {
 del {
     text-decoration: line-through;
 }
+
+time[pubdate] {
+    font-variant: small-caps;
+    opacity: 0.75;
+}
