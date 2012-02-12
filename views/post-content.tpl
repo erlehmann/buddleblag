@@ -7,9 +7,7 @@
     -->
     <time datetime="{{post.creation_date.isoformat()}}" pubdate>{{post.creation_date.strftime("%A, %x")}}</time>
 </header>
-<div class=editable>
-    {{! helpers.sanitize_html(post.content)}}
-</div>
+{{! helpers.sanitize_html(post.content)}}
 %end
 
 % if post.mime_type.startswith('image/'):
