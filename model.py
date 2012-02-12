@@ -60,13 +60,15 @@ class Post(object):
 
 class PostList(object):
     """
-    Returns a list of strings of post titles.
+    Returns a list of posts, sorted by date (newest first).
     """
     def __init__(self):
         self.repo = Repo('posts')
         self.tree = self.repo.heads.master.commit.tree
 
-    def get_titles(self):
-        return [b.path for b in self.tree.blobs]
+    def get_posts(self):
+        posts = [Post(b.path) for b in self.tree.blobs]
+        posts.sort(key=lambda p: p.creation_date, reverse=True)
+        return posts
 
-    titles = property(get_titles)
+    posts = property(get_posts)

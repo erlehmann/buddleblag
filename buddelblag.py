@@ -53,8 +53,7 @@ def send_static(filename):
 @route('/')
 @view('index')
 def index():
-    posts = [Post(title) for title in PostList().titles]
-    return {'posts': posts, 'auth': request.auth}
+    return {'posts': PostList().posts, 'auth': request.auth}
 
 @route('/:title', method='GET')
 @view('post')
