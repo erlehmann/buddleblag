@@ -59,6 +59,9 @@ class Post(object):
         pass
 
 class PostList(object):
+    """
+    Returns a list of strings of post titles.
+    """
     def __init__(self):
         self.repo = Repo('posts')
         self.tree = self.repo.heads.master.commit.tree
