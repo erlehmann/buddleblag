@@ -28,7 +28,9 @@
             <li>
                 % favicon = helpers.braveicon.get_favicon(url,
                 %     use_data_uri=True)
+                % if favicon:
                 <img src="{{favicon}}" alt="" height=16 width=16>
+                % end
                 <a href="{{url}}">{{title}}
             </a>
         % end

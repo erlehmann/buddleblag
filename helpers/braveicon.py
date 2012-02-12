@@ -36,7 +36,7 @@ via shortcut icon, and W3C snubs /favicon.ico, generally speaking."""
 		return 'data:image/png;base64,' + b64encode(data)
 
 	def cache_url(key, value):
-		if use_data_uri:
+		if use_data_uri and value:
 			value = create_data_uri(value)
 		url_cache.set(key, value)
 
@@ -46,6 +46,8 @@ via shortcut icon, and W3C snubs /favicon.ico, generally speaking."""
 	cached_url = url_cache.get(page_url)
 	if cached_url:
 		return cached_url
+	if cached_url == False:  # “False” denotes no favicon.
+		return False
 
 	html = requests.get(page_url).content
 
@@ -75,4 +77,5 @@ via shortcut icon, and W3C snubs /favicon.ico, generally speaking."""
 		cache_url(page_url, favicon_url)
 		return create_data_uri(favicon_url)
 
+	cache_url(page_url, False)
 	return False
