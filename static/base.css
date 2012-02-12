@@ -38,7 +38,12 @@ section section h1 {
     margin: 1em 0;
 }
 
-p, ol, ul, label, textarea, footer {
+article {
+    display: block;
+    margin-bottom: 3em;
+}
+
+p, ol, ul, label, textarea, header, footer {
     display: block;
     margin-bottom: 1.5em;
 }

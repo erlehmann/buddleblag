@@ -10,7 +10,7 @@ body > footer {
 }
 
 body > header {
-    margin-bottom: 4.5em;
+    margin-bottom: 6em;
 }
 
 body > aside {
@@ -39,7 +39,7 @@ body > aside {
     body > aside:nth-of-type(1) {
         margin-left: -13.5em;
         position: fixed;
-        top: 12em;
+        top: 13.5em;
         width: 12em;
     }
 }
@@ -60,7 +60,7 @@ body > aside {
     body > aside:nth-of-type(2) {
         margin-left: 36em;
         position: absolute;
-        top: 12em;
+        top: 13.5em;
         width: 20em;
     }
 }
@@ -72,5 +72,5 @@ body > aside {
 }
 
 body > footer {
-    margin: 4.5em auto -6em;
+    margin: 6em auto -7.5em;
 }
