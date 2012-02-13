@@ -1,8 +1,12 @@
+% setdefault('header_link', False)
 % if post.mime_type.startswith('text/'):
 <header>
-    <h1>{{post.title}}</h1>
+    % if header_link:
+        <h1><a href="/{{helpers.quote(post.title)}}">{{post.title}}</a></h1>
+    % else:
+        <h1>{{post.title}}</h1>
+    % end
     <!--
-    <a href="/{{helpers.quote(post.title)}}" class=permalink>❖</a>
     <a href="/{{helpers.quote(post.title)}}/edit" class=editlink>✎</a>
     -->
     <time datetime="{{post.creation_date.isoformat()}}" pubdate>{{post.creation_date.strftime("%A, %x")}}</time>

@@ -4,7 +4,7 @@
 
     % for post in posts:
     <article>
-        % include post-content post=post, helpers=helpers
+        % include post-content post=post, helpers=helpers, header_link=True
     </article>
     % end
 
