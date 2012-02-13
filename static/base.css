@@ -3,8 +3,8 @@
     background-color: inherit;
     color: inherit;
     font: inherit;
-    font-size: /*100%*/ 14px;
-    line-height: 1.5;
+    font-size: inherit;
+    line-height: inherit;
     margin: 0;
     padding: 0;
     text-decoration: none;
@@ -17,6 +17,7 @@
 
 html {
     font-family: sans-serif;
+    line-height: 1.5;
 }
 
 h1 {
@@ -27,7 +28,7 @@ h1 {
 h2,
 section h1 {
     font-size: 2em;
-    line-height: 0.75;
+    line-height: 1.5;
     margin: 0.75em 0;
 }
 
