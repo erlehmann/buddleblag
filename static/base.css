@@ -58,11 +58,17 @@ a:link {
     border-bottom: 1px solid;
 }
 
+h1 a:link {
+    border-bottom-width: 0;
+}
+
 a:hover,
 a:focus {
     outline: 2px solid;
     outline-radius: 2px;
+    border-bottom-width: 0;
 }
+
 
 i {
     font-style: italic;
