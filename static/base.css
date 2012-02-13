@@ -39,12 +39,13 @@ section section h1 {
     margin: 1em 0;
 }
 
-article {
+article,
+aside > * {
     display: block;
     margin-bottom: 3em;
 }
 
-p, ol, ul, label, textarea, header, footer {
+p, ol, ul, li, label, textarea, header, footer {
     display: block;
     margin-bottom: 1.5em;
 }
