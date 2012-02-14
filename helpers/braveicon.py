@@ -21,6 +21,7 @@
 from werkzeug.contrib.cache import SimpleCache
 from html5lib.html5parser import HTMLParser
 from base64 import b64encode
+from urlparse import urlsplit
 
 import requests
 
@@ -65,8 +66,10 @@ via shortcut icon, and W3C snubs /favicon.ico, generally speaking."""
 				favicon_url = "%s/%s" % \
 					(page_url, attributes['href'][2:len(attributes['href'])])
 			if attributes['href'].startswith("/"):
+				s = urlsplit(page_url)
+				prefix = s.scheme + '://' + s.hostname
 				favicon_url = "%s/%s" % \
-					(page_url, attributes['href'][1:len(attributes['href'])])
+					(prefix, attributes['href'][1:len(attributes['href'])])
 
 			if requests.head(favicon_url).ok:
 				cache_url(page_url, favicon_url)
