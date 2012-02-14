@@ -33,8 +33,10 @@ most importantly, per W3C spec, however, it favors 'shortcut icon'
 over /favicon.ico, as many software packages explicitly declare
 via shortcut icon, and W3C snubs /favicon.ico, generally speaking."""
 	def create_data_uri(url):
-		data = requests.get(url).content
-		return 'data:image/png;base64,' + b64encode(data)
+		r = requests.get(url)
+		data = r.content
+		mimetype = r.headers['content-type']
+		return 'data:' + mimetype + ';base64,' + b64encode(data)
 
 	def cache_url(key, value):
 		if use_data_uri and value:
