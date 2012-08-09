@@ -33,7 +33,7 @@ class HTMLSanitizerMixin(sanitizer.HTMLSanitizerMixin):
 
 class HTMLSanitizer(tokenizer.HTMLTokenizer, HTMLSanitizerMixin):
     def __init__(self, stream, encoding=None, parseMeta=True, useChardet=True,
-                 lowercaseElementName=True, lowercaseAttrName=True):
+                 lowercaseElementName=True, lowercaseAttrName=True, parser=None):
         tokenizer.HTMLTokenizer.__init__(self, stream, encoding, parseMeta,
                                          useChardet, lowercaseElementName,
                                          lowercaseAttrName)
