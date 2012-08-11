@@ -39,3 +39,8 @@ a:hover {
 body > aside li > img {
     vertical-align: middle;
 }
+
+article#new {
+    background-color: #fce94f;
+    outline: 2px solid #fce94f;
+}
