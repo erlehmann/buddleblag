@@ -4,11 +4,14 @@
 <link rel="stylesheet" href="/static/base.css">
 <link rel="stylesheet" href="/static/layout.css">
 <link rel="stylesheet" href="/static/decor.css">
+<link rel="stylesheet" href="/static/hallo.css">
+<link rel="stylesheet" href="/static/font-awesome.css">
+<link rel="stylesheet" href="/static/jquery-ui-1.8.16.custom.css">
 
 <header>
     <hgroup>
-        <h1 id=blog-title class=editable>{{config.get('blog', 'title')}}</h1>
-        <h2 id=blog-subtitle class=editable>{{config.get('blog', 'subtitle')}}</h2>
+        <h1 id=blog-title>{{config.get('blog', 'title')}}</h1>
+        <h2 id=blog-subtitle>{{config.get('blog', 'subtitle')}}</h2>
     </hgroup>
 </header>
 
