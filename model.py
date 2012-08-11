@@ -41,11 +41,8 @@ class Post(object):
 
     def update_content(self, content, author, email, message):
         config = self.repo.config_writer()
-        config.set_value("user", "name", author.encode('UTF-8'));
-        config.set_value("user", "email", email.encode('UTF-8'));
-
-        content = content.encode('UTF-8')
-        message = message.encode('UTF-8')
+        config.set_value("user", "name", author);
+        config.set_value("user", "email", email);
 
         filename = self.title
 
