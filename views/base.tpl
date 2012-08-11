@@ -4,9 +4,15 @@
 <link rel="stylesheet" href="/static/base.css">
 <link rel="stylesheet" href="/static/layout.css">
 <link rel="stylesheet" href="/static/decor.css">
+
+% try:
+%   auth[0]
 <link rel="stylesheet" href="/static/hallo.css">
 <link rel="stylesheet" href="/static/font-awesome.css">
 <link rel="stylesheet" href="/static/jquery-ui-1.8.16.custom.css">
+% except TypeError:
+%   pass
+% end
 
 <header>
     <hgroup>
@@ -50,7 +56,10 @@
 
 % try:
 %   auth[0]
-<script src="/static/domready.js"></script>
+<script src="/static/jquery-1.7.1.min.js"></script>
+<script src="/static/jquery-ui-1.8.18.custom.min.js"></script>
+<script src="/static/rangy-core-1.2.3.js"></script>
+<script src="/static/hallo-min.js"></script>
 <script src="/static/buddleblag.js"></script>
 % except TypeError:
 %   pass

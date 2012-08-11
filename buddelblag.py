@@ -74,7 +74,10 @@ def commit_page(title):
     message = request.POST['message']
 
     post = Post(title)
-    post.update_content(content, name, email, message)
+    if post.content != content:
+        post.update_content(content, name, email, message)
+    else:
+        return HTTPError(400, 'Bad Request. Resource was not changed.')
     redirect('/' + title)
 
 @route('/:title/edit')

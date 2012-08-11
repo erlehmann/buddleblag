@@ -1,19 +1,24 @@
-'use strict'
+jQuery(function() {
+    jQuery('.editable').hallo({
+      plugins: {
+        'halloformat': {},
+        'halloblock': {},
+        'hallojustify': {},
+        'hallolists': {},
+        'hallolink': {},
+        'halloreundo': {}
+      },
+      editable: true,
+      toolbar: 'halloToolbarFixed'
+    });
 
-DomReady.ready(function() {
-    addEditHandlers()
-})
-
-function makeEditable() {
-    var editable = document.getElementsByClassName('editable')
-    for (var e in editable) {
-        editable[e].contentEditable = true
-    }
-}
-
-function addEditHandlers() {
-    var editableElements = document.getElementsByClassName('editable')
-    for (e in editableElements) {
-        editableElements[e].onclick = "makeEditable()"
-    }
-}
+    jQuery('.editable').bind('blur', function(event, data) {
+        jQuery.post(this.dataset['url'], {
+            content: jQuery(this).html(),
+            name: "John",
+            email: "john@example.org",
+            message: "javascript edit"
+        });
+        this.hallo({editable: false});
+    });
+});
