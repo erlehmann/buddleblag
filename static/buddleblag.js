@@ -3,7 +3,6 @@ jQuery(function() {
       plugins: {
         'halloformat': {},
         'halloblock': {},
-        'hallojustify': {},
         'hallolists': {},
         'hallolink': {},
         'halloreundo': {}
