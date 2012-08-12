@@ -45,13 +45,21 @@ aside > * {
     margin-bottom: 3em;
 }
 
-p, ol, ul, li, label, textarea, header, footer {
+p, label, textarea, header, footer {
     display: block;
     margin-bottom: 1.5em;
 }
 
 li {
-    margin: 0.75em 0;
+    margin: 1.5em 0.75em 0;
+}
+
+ul {
+    list-style-type: square;
+}
+
+ol {
+    list-style-type: decimal;
 }
 
 a:link {
