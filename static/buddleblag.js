@@ -12,13 +12,15 @@ jQuery(function() {
     });
 
     jQuery('.editable').bind('blur', function(event, data) {
-        if (this.dataset['url'] != undefined) {
+        if ((this.dataset['url'] !== undefined) &&
+            jQuery(this).hasClass('isModified')) {
             jQuery.post(this.dataset['url'], {
                 content: jQuery(this).html(),
                 name: "John",
                 email: "john@example.org",
                 message: "javascript edit"
             });
+            jQuery(this).removeClass('isModified');
         };
         this.hallo({editable: false});
     });
