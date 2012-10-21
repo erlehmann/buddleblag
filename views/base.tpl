@@ -50,7 +50,7 @@
 
 <footer>
     <p>
-        {{config.get('blog', 'footer')}}
+        Proudly made without PHP, Java, Perl, MySQL and Postgres.
     </p>
 </footer>
 
