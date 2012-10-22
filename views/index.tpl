@@ -1,11 +1,14 @@
-% rebase base config=config, helpers=helpers, auth=auth
+% rebase base auth=auth, footer=footer, helpers=helpers, sections=sections
 
-<section>
+% if auth is not None:
+<form method="post">
+   <textarea name=content></textarea>
+   <input type=submit>
+</form>
+% end
 
-    % for post in posts:
-    <article>
-        % include post-content post=post, helpers=helpers, header_link=True
-    </article>
-    % end
-
-</section>
+% for post in posts:
+<article>
+%     include post-content post=post, helpers=helpers
+</article>
+% end

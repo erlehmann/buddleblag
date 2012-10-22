@@ -1,54 +1,33 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
-<title>{{config.get('blog', 'title')}}</title>
-<link rel="stylesheet" href="/static/base.css">
-<link rel="stylesheet" href="/static/layout.css">
-<link rel="stylesheet" href="/static/decor.css">
+<meta charset=utf-8>
+<title>{ {title} }</title>
+
+% for section in sections:
+    <link rel="alternate" href="/feed/{{section['name']}}" type="application/atom+xml" title="Feed: {{section['title']}}">
+% end
+
+<style>
+  body { line-height: 1.5; margin: auto; max-width: 33em; }
+  article, form, header, p { margin: 1.5em 0; }
+  form > * { display: block; min-height: 3em; width: 100%; }
+</style>
 
 <header>
-    <hgroup>
-        <h1 id=blog-title class=editable>{{config.get('blog', 'title')}}</h1>
-        <h2 id=blog-subtitle class=editable>{{config.get('blog', 'subtitle')}}</h2>
-    </hgroup>
+    <h1 id=blog-title>{ {title} }</h1>
+    <h2 id=section-title>{ {section} }</h2>
 </header>
 
-<aside>
-    <section>
-    </section>
-</aside>
+<nav>
+    <ul>
+% for section in sections:
+        <li><a class="{{section['name']}}" href="/{{section['name']}}">{{section['title']}}</a>
+% end
+ </nav>
 
 % include
 
-<aside>
-    % for section in config.sidebar.sections():
-    <section>
-        <h1>{{section}}</h1>
-        <ul>
-        % for (title, url) in config.sidebar.items(section):
-            <li>
-                % favicon = helpers.braveicon.get_favicon(url,
-                %     use_data_uri=True)
-                % if favicon:
-                <img src="{{favicon}}" alt="" height=16 width=16>
-                % end
-                <a href="{{url}}">{{title}}
-            </a>
-        % end
-        </ul>
-    </section>
-    % end
-</aside>
-
 <footer>
-    <p>
-        {{config.get('blog', 'footer')}}
-    </p>
+    <small>
+        {{footer}}
+    </small>
 </footer>
-
-% try:
-%   auth[0]
-<script src="/static/domready.js"></script>
-<script src="/static/buddleblag.js"></script>
-% except TypeError:
-%   pass
-% end

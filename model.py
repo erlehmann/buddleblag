@@ -7,25 +7,44 @@ import magic
 from datetime import datetime
 
 class Post(object):
-    def __init__(self, title):
+    def __init__(self, section, title):
+        self.section = section
+        self.repo = Repo(self.section)
         self.title = title.decode('UTF-8')
-        self.repo = Repo('posts')
 
         try:
             blob = self.repo.heads.master.commit.tree[self.title]
             self.content = blob.data_stream.read()
         except KeyError:
-            self.content = u'This space intentionally left blank.' 
+            self.content = ''
 
     def __str__(self):
         return self.title
 
-    def get_creation_date(self):
-        commits = [c for c in self.repo.iter_commits(paths=self.title)]
-        timestamp = commits[-1].committed_date
+    def _get_authors(self):
+        authors = set(
+            [c.author for c in self.repo.iter_commits(paths=self.title)]
+        )
+        return [{'name': a.name, 'email': a.email} for a in authors]
+
+    authors = property(_get_authors)
+
+    def _get_commits(self):
+        return [c for c in self.repo.iter_commits(paths=self.title)]
+
+    commits = property(_get_commits)
+
+    def _get_creation_datetime(self):
+        timestamp = self.commits[-1].committed_date
         return datetime.fromtimestamp(timestamp)
 
-    creation_date = property(get_creation_date)
+    created = property(_get_creation_datetime)
+
+    def _get_update_datetime(self):
+        timestamp = self.commits[0].committed_date
+        return datetime.fromtimestamp(timestamp)
+
+    updated = property(_get_update_datetime)
 
     def get_content(self):
         return self.content
@@ -62,13 +81,27 @@ class PostList(object):
     """
     Returns a list of posts, sorted by date (newest first).
     """
-    def __init__(self):
-        self.repo = Repo('posts')
+    def __init__(self, section):
+        self.section = section
+        self.repo = Repo(self.section)
         self.tree = self.repo.heads.master.commit.tree
 
-    def get_posts(self):
-        posts = [Post(b.path) for b in self.tree.blobs]
-        posts.sort(key=lambda p: p.creation_date, reverse=True)
+    def __iter__(self):
+        return iter(self.posts)
+
+    def _get_creation_datetime(self):
+        return self.posts[-1].created
+
+    created = property(_get_creation_datetime)
+
+    def _get_posts(self):
+        posts = [Post(self.section, b.path) for b in self.tree.blobs]
+        posts.sort(key=lambda p: p.created, reverse=True)
         return posts
 
-    posts = property(get_posts)
+    posts = property(_get_posts)
+
+    def _get_update_datetime(self):
+        return self.posts[0].created
+
+    updated = property(_get_update_datetime)
