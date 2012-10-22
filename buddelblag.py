@@ -71,6 +71,12 @@ def auth():
         'WWW-Authenticate': 'Basic realm="%s"' % \
             config.get('blog', 'title')})
 
+@route('/archive/<section>', methode='GET')
+def get_section_archive(section):
+    posts = PostList(unquote(section))
+    response.headers['Content-Type'] = 'application/x-tar'
+    return posts.archive
+
 @route('/feed/<section>', method='GET')
 @view('feed')
 def get_section_feed(section):

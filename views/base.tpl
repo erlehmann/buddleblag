@@ -4,6 +4,7 @@
 
 % for section in sections:
     <link rel="alternate" href="/feed/{{section['name']}}" type="application/atom+xml" title="Feed: {{section['title']}}">
+    <link rel="alternate" href="/archive/{{section['name']}}" type="application/x-tar" title="Archiv: {{section['title']}}">
 % end
 
 <style>

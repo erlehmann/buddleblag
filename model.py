@@ -89,6 +89,13 @@ class PostList(object):
     def __iter__(self):
         return iter(self.posts)
 
+    def _create_archive(self):
+        f = StringIO()
+        self.repo.archive(f)
+        return f.getvalue()
+
+    archive = property(_create_archive)
+
     def _get_creation_datetime(self):
         return self.posts[-1].created
 
