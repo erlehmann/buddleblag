@@ -4,7 +4,6 @@
  <id>{{id}}</id>
  <link rel="self" href="{{self}}"/>
  <updated>{{updated.isoformat()}}Z</updated>
-
 % for entry in entries:
  <entry>
   <title>{{entry['title']}}</title>
@@ -15,6 +14,7 @@
    <name>{{author['name']}}</name>
    <email>{{author['email']}}</email>
   </author>
+  <link rel="alternate" type="text/html" href="{{entry['url']}}"/>
   % end
   <content type="{{entry['mime_type']}}">
 <![CDATA[

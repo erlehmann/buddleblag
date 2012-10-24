@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from bottle import debug, functools, HTTPError, redirect, request, response, route, run, static_file, view
+from bottle import debug, functools, HTTPError, redirect, request, response, route, run, static_file, url, view
 from datetime import datetime
 from urllib2 import unquote
 from model import Post, PostList
@@ -29,6 +29,8 @@ sections = [
        'title': section[1]
     } for section in config.items('sections')
 ]
+title = config.get('blog', 'title')
+
 view = functools.partial(view, footer=footer, helpers=helpers, sections=sections)
 
 def logged_in(auth):
@@ -42,28 +44,31 @@ def logged_in(auth):
             return True
     return False
 
-
 def auth_required():
     def decorator(view):
         def wrapper(*args, **kwargs):
             if logged_in(request.auth):
                 return view(*args, **kwargs)
             return HTTPError(401, 'Access denied!',
-                header={'WWW-Authenticate': 'Basic realm="%s"' % \
-                    config.get('blog', 'title')})
+                header={'WWW-Authenticate': 'Basic realm="%s"' % title})
         return wrapper
     return decorator
 
 @route('/')
 @view('main')
 def index():
-    return { 'auth': request.auth, 'sections': sections }
+    return {
+        'auth': request.auth,
+        'sections': sections,
+        'title': title
+    }
 
 @route('/login')
 def auth():
     referer = request.headers.get('referer')
     if logged_in(request.auth):
         if referer:
+            print referer
             redirect(referer)
         redirect ('/')
 
@@ -73,19 +78,21 @@ def auth():
 
 @route('/archive/<section>', methode='GET')
 def get_section_archive(section):
-    posts = PostList(unquote(section))
+    section = unquote(section)
+    posts = PostList(section)
     response.headers['Content-Type'] = 'application/x-tar'
     return posts.archive
 
 @route('/feed/<section>', method='GET')
 @view('feed')
 def get_section_feed(section):
-    posts = PostList(unquote(section))
+    section = unquote(section)
+    posts = PostList(section)
     hostname = request.urlparts.netloc.split(':')[0]
     created = posts.created
     updated = posts.updated
     feed = {
-        'id': tag_uri(hostname, created, unquote(section)),
+        'id': tag_uri(hostname, created, section),
         'self': request.url,
         'title': unquote(section),
         'updated': updated,
@@ -96,6 +103,7 @@ def get_section_feed(section):
                 'id': tag_uri(hostname, datetime.now(), post.title),
                 'mime_type': post.mime_type,
                 'title': post.title,
+                'url': url('post', section=section, title=post.title),
                 'updated': post.updated,
             } for post in posts
         ]
@@ -106,16 +114,18 @@ def get_section_feed(section):
 @route('/<section>', method='GET')
 @view('index')
 def get_section(section):
-    posts = PostList(unquote(section))
+    section=unquote(section)
+    posts = PostList(section)
     return {
         'auth': request.auth,
         'posts': [
             {
                 'authors': post.authors,
                 'content': post.content,
+                'created': post.created,
                 'mime_type': post.mime_type,
                 'title': post.title,
-                'created': post.created,
+                'url': url('post', section=section, title=post.title)
             } for post in posts
         ],
         'section': unquote(section)
@@ -124,6 +134,7 @@ def get_section(section):
 @route('/<section>', method='POST')
 @auth_required()
 def post_section(section):
+    section = unquote(section)
     content = request.POST['content']
     title = datetime.now().strftime('%s')
 
@@ -138,15 +149,16 @@ def post_section(section):
     response.headers['Location'] = location
     return location
 
-@route('/<section>/<title>', method='GET')
+@route('/<section>/<title>', method='GET', name='post')
 def get_content(section, title):
-    post = Post(unquote(section), unquote(title))
+    section, title = unquote(section), unquote(title)
+    post = Post(section, title)
+    print post.exists
     return post.content
 
 @route('/<section>/<title>', method='PUT')
 def put_content(section, title):
-    content = request.POST['content']
-    title = ''
+    raise NotImplementedError
 
 @route('/<section>/<title>', method='PUT')
 @auth_required()

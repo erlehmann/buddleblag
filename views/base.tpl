@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <meta charset=utf-8>
-<title>{ {title} }</title>
+<title>{{title}}</title>
 
-% for section in sections:
-    <link rel="alternate" href="/feed/{{section['name']}}" type="application/atom+xml" title="Feed: {{section['title']}}">
-    <link rel="alternate" href="/archive/{{section['name']}}" type="application/x-tar" title="Archiv: {{section['title']}}">
+% for s in sections:
+    <link rel="alternate" href="/feed/{{s['name']}}" type="application/atom+xml" title="Feed: {{s['title']}}">
+    <link rel="alternate" href="/archive/{{s['name']}}" type="application/x-tar" title="Archiv: {{s['title']}}">
 % end
 
 <style>
@@ -14,8 +14,12 @@
 </style>
 
 <header>
-    <h1 id=blog-title>{ {title} }</h1>
-    <h2 id=section-title>{ {section} }</h2>
+    <h1 id=blog-title>{{title}}</h1>
+% try:
+    <h2 id=section-title>{{section}}</h2>
+% except NameError:
+%     pass
+% end
 </header>
 
 <nav>
