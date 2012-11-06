@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 <meta charset=utf-8>
 <title>{{title}}</title>
+<link rel=stylesheet href=/static/base.css type=text/css>
+<link rel=stylesheet href=/static/decor.css type=text/css>
 
 % for s in sections:
-    <link rel="alternate" href="/feed/{{s['name']}}" type="application/atom+xml" title="Feed: {{s['title']}}">
-    <link rel="alternate" href="/archive/{{s['name']}}" type="application/x-tar" title="Archiv: {{s['title']}}">
+    <link rel=alternate href="/feed/{{s['name']}}" type=application/atom+xml title="Feed: {{s['title']}}">
+    <link rel=alternate href="/archive/{{s['name']}}" type=application/x-tar title="Archiv: {{s['title']}}">
 % end
-
-<style>
-  body { line-height: 1.5; margin: auto; max-width: 33em; }
-  article, form, header, p { margin: 1.5em 0; }
-  form > * { display: block; min-height: 3em; width: 100%; }
-</style>
 
 <header>
     <h1 id=blog-title>{{title}}</h1>

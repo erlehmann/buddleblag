@@ -1,6 +1,8 @@
 * {
-    border: none;
     background-color: inherit;
+    border: none;
+    border-radius: 0.375em;
+    box-sizing: border-box;
     color: inherit;
     font: inherit;
     font-size: inherit;
@@ -18,6 +20,19 @@
 html {
     font-family: sans-serif;
     line-height: 1.5;
+}
+
+html > * {
+    outline: 1px dashed black;
+}
+
+body,
+header,
+footer,
+nav ul li a  {
+    max-width: 33em;
+    margin: 1.5em auto;
+    padding: 1.5em;
 }
 
 h1 {
@@ -39,23 +54,26 @@ section section h1 {
     margin: 1em 0;
 }
 
+nav > ul,
+nav > ul > li {
+    display: inline-block;
+}
+
 article,
 aside > * {
     display: block;
     margin-bottom: 3em;
 }
 
-p, ol, ul, li, label, textarea, header, footer {
+p, label, textarea, header, footer {
     display: block;
     margin-bottom: 1.5em;
 }
 
-li {
-    margin: 0.75em 0;
-}
-
 a:link {
     border-bottom: 1px solid;
+    display: inline-block;
+    margin-bottom: -1px;
 }
 
 h1 a:link {

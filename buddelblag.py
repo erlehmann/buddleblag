@@ -59,9 +59,14 @@ def auth_required():
 def index():
     return {
         'auth': request.auth,
+        'content': 'Dieses Programm hat das Ziel, die Medienkompetenz der Leser zu steigern. Gelegentlich packe ich sogar einen handfesten Buffer Overflow oder eine Format String Vulnerability zwischen die anderen Codezeilen und schreibe das auch nicht dran.',
         'sections': sections,
         'title': title
     }
+
+@route('/static/:filename')
+def send_static(filename):
+    return static_file(filename, root='./static/')
 
 @route('/login')
 def auth():

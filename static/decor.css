@@ -1,20 +1,7 @@
-html::before,
-html::after {
-    content: '';
-    display: block;
-    height: 12em;
-    margin-bottom: -12em;
-    z-index: 1;
-}
-
-
-body > header {
-    z-index: 2;
-}
-
-body {
+body,
+body * {
     background-attachment: scroll;
-    background-image: url('/static/lines.png');
+    background-image: url('/static/grid.png');
 }
 
 a:link {
@@ -27,16 +14,11 @@ a:focus {
     outline-color: #f57900;
 }
 
-html::before,
-html::after,
 body > header,
 body > footer,
+body > nav > ul,
 a:hover {
     background-color: #2e3436;
     color: #eeeeec;
     outline-color: #2e3436;
-}
-
-body > aside li > img {
-    vertical-align: middle;
 }
