@@ -1,5 +1,6 @@
 from braveicon import get_favicon
 from sanitizer import sanitize_html
+from sanitizer import sanitize_text
 from unidecode import unidecode
 from urllib2 import quote
 

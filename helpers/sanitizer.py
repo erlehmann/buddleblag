@@ -55,3 +55,15 @@ def sanitize_html(html):
                                   quote_attr_values=True)
     output_generator = s.serialize(stream)
     return u''.join(output_generator)
+
+def sanitize_text(text):
+    """Sanitizes a plain text fragment."""
+    substitutions = [
+        ('&', '&amp;'),
+        ('<', '&lt;'),
+        ('>', '&gt;'),
+        ('\n', '<br>')
+    ]
+    for character, substitute in substitutions:
+        text = text.replace(character, substitute)
+    return text
