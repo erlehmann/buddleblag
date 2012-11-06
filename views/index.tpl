@@ -1,4 +1,4 @@
-% rebase base auth=auth, footer=footer, helpers=helpers, sections=sections
+% rebase base auth=auth, footer=footer, helpers=helpers, sections=sections, title=title
 
 % if auth is not None:
 <form method="post">

@@ -31,7 +31,7 @@ sections = [
 ]
 title = config.get('blog', 'title')
 
-view = functools.partial(view, footer=footer, helpers=helpers, sections=sections)
+view = functools.partial(view, footer=footer, helpers=helpers, sections=sections, title=title)
 
 def logged_in(auth):
     try:
