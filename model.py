@@ -1,21 +1,23 @@
 from git import Blob, Repo, IndexEntry
 from StringIO import StringIO
 from gitdb import IStream
+from sys import stderr
 
 import magic
 
 from datetime import datetime
 
 class Post(object):
-    def __init__(self, title):
+    def __init__(self, directory, title):
         self.title = title.decode('UTF-8')
-        self.repo = Repo('posts')
+        self.root = directory
+        self.repo = Repo(self.root)
 
         try:
             blob = self.repo.heads.master.commit.tree[self.title]
             self.content = blob.data_stream.read()
         except KeyError:
-            self.content = u'This space intentionally left blank.' 
+            self.content = u'This space intentionally left blank.'
 
     def __str__(self):
         return self.title
@@ -55,16 +57,18 @@ class Post(object):
     def update_title(self, new_title):
         pass
 
-class PostList(object):
-    """
-    Returns a list of posts, sorted by date (newest first).
-    """
-    def __init__(self):
-        self.repo = Repo('posts')
+class Repository(object):
+    def __init__(self, directory):
+        self.root = directory
+        self.repo = Repo(self.root)
         self.tree = self.repo.heads.master.commit.tree
+        self.description = self.repo.description
 
     def get_posts(self):
-        posts = [Post(b.path) for b in self.tree.blobs]
+        """
+        Returns a list of posts, sorted by date (newest first).
+        """
+        posts = [Post(self.root, b.path) for b in self.tree.blobs]
         posts.sort(key=lambda p: p.creation_date, reverse=True)
         return posts
 

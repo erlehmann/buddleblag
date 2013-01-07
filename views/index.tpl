@@ -1,24 +1,12 @@
-% rebase base config=config, helpers=helpers, auth=auth
+% rebase base title=title, helpers=helpers
 
+% for r in repositories:
 <section>
-    % try:
-    %   auth[0]
-    <article id=new>
-        <header>
-            <h1 id=new-headline class=editable>Neuer Artikel</h1>
-        </header>
-        <div id=new-content class=editable>
-            Lorem Ipsum.
-        </div>
-    </article>
-    % except TypeError:
-    %   pass
-    % end
-
-    % for post in posts:
-    <article>
-        % include post-content post=post, helpers=helpers, header_link=True
-    </article>
-    % end
-
+    <a href="{{r.root}}"><h1>{{r.description}}</a></h1></a>
+    <ul>
+        % for p in r.posts:
+        <li><a href="{{r.root}}/{{p.title}}">{{p.title}}</a>
+        % end
+    </ul>
 </section>
+% end
