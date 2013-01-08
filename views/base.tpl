@@ -11,7 +11,7 @@
 
 <aside>
     <section>
-        <p>Blog von Nils Dagsson Moskopp // <i>erlehmann</i>
+        {{tagline}}
     </section>
     <section>
     <h1>Categories</h1>

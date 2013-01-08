@@ -28,7 +28,8 @@ view = functools.partial(
     view,
     directories=directories,
     helpers=helpers,
-    title=config.get('blog', 'title')
+    tagline=config.get('blog', 'tagline'),
+    title=config.get('blog', 'title'),
 )
 
 @route('/static/:filename')
