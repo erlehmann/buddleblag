@@ -112,6 +112,10 @@ ol {
 
 /* text-level semantics */
 
+cite {
+ font-style: italic;
+}
+
 abbr {
  letter-spacing: 0.1em;
 }
