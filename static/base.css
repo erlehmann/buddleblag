@@ -110,6 +110,42 @@ ol {
  list-style-type: square;
 }
 
+/* text-level semantics */
+
+abbr {
+ letter-spacing: 0.1em;
+}
+
+code, var, samp, kbd {
+ font-family, 'Monospace', monospace;
+ overflow-x: auto;
+ whitespace: pre;
+}
+
+var {
+ font-style: italic;
+}
+
+sub, sup {
+ font-size: 0.75em;
+}
+
+sub {
+ vertical-align: sub;
+}
+
+sup {
+ vertical-align: super;
+}
+
+i {
+ font-style: italic;
+}
+
+b {
+ font-weight: bold;
+}
+
 /* embedded content */
 
 img, audio, video {
