@@ -8,3 +8,17 @@
 </header>
 
 % include
+
+<aside>
+    <section>
+        <p>Blog von Nils Dagsson Moskopp // <i>erlehmann</i>
+    </section>
+    <section>
+    <h1>Categories</h1>
+    <ul>
+        % for directory in directories:
+        <li><a href="/{{directory}}">{{directory}}</a>
+        % end
+    </ul>
+    </section>
+</aside>

@@ -1,1 +1,118 @@
-article { white-space: pre-wrap };
+/* reset */
+
+* {
+ border: none;
+ font: inherit;
+ font-size: 100%;
+ margin: 0;
+ padding: 0;
+ text-decoration: none;
+ vertical-align: baseline;
+}
+
+/* global attributes */
+
+[title] {
+ border-bottom: 1px dotted;
+ cursor: help;
+}
+
+[hidden] {
+ display: none;
+}
+
+/* root element */
+
+html {
+ background: white;
+ font-family: 'Sans', sans-serif;
+ line-height: 1.5;
+}
+
+/* sections */
+
+body {
+ background: url(grid.png);
+ display: block;
+ margin: 3em auto;
+ padding: 3em;
+ max-width: 51em;
+ outline: 1px solid black;
+ position: relative;
+ left: 7.5em;
+}
+
+body > * {
+ max-width: 33em;
+}
+
+body * {
+ background: rgba(0,50,0,0.1);
+ outline: 1px solid red;
+}
+
+section, nav, article, aside {
+ display: block;
+ margin: 1.5em 0;
+}
+
+article {
+ overflow: hidden;
+}
+
+article * {
+ max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+ text-align: left;
+}
+
+h1 {
+ font-size: 3em;
+}
+
+section h1, nav h1, article h1, aside h1,
+h2 {
+ font-size: 2em;
+}
+
+section section h1, section nav h1, section article h1, section aside h1,
+article section h1, article nav h1, article article h2, article aside h1,
+section h2, nav h2, article h2, aside h2,
+h3 {
+ font-size: 1.5em;
+ line-height: 1.33;
+}
+
+article header {
+ margin-bottom: 1.5em;
+}
+
+body > aside {
+ position: absolute;
+ right: 3em;
+ top: 1.5em;
+ width: 15em;
+}
+
+/* grouping content */
+
+p, ol, ul {
+ margin: 1.5em 0;
+}
+
+ul {
+ list-style-type: square;
+}
+
+ol {
+ list-style-type: square;
+}
+
+/* embedded content */
+
+img, audio, video {
+ border: 1px solid;
+ width: 100%;
+}

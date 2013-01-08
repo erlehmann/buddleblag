@@ -26,6 +26,7 @@ directories = [
 
 view = functools.partial(
     view,
+    directories=directories,
     helpers=helpers,
     title=config.get('blog', 'title')
 )

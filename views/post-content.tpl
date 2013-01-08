@@ -1,11 +1,6 @@
-<header>
-    <h1>{{post.title}}</h1>
-    <time datetime="{{post.creation_date.isoformat()}}" pubdate>{{post.creation_date.strftime("%A, %x")}}</time>
-</header>
-
 % if post.mime_type.startswith('text/'):
 {{! helpers.sanitize_html(post.content)}}
-%end
+% end
 
 % if post.mime_type.startswith('image/'):
 <figure>
@@ -15,7 +10,3 @@
     </figcaption>
 <figure>
 % end
-
-<footer>
-    <a href="/{{post.root}}/{{post.title}}/raw">Raw</a>
-</footer>

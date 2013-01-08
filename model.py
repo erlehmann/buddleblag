@@ -9,7 +9,7 @@ from datetime import datetime
 
 class Post(object):
     def __init__(self, directory, title):
-        self.title = title.decode('UTF-8')
+        self.title = title.decode('utf-8')
         self.root = directory
         self.repo = Repo(self.root)
 
@@ -23,7 +23,10 @@ class Post(object):
         return self.title
 
     def get_creation_date(self):
-        commits = [c for c in self.repo.iter_commits(paths=self.title)]
+        commits = [
+            c for c in \
+                self.repo.iter_commits(paths=self.title.encode('utf-8'))
+        ]
         timestamp = commits[-1].committed_date
         return datetime.fromtimestamp(timestamp)
 
@@ -39,7 +42,7 @@ class Post(object):
     mime_type = property(get_mime_type)
 
     def get_title(self):
-        return self.title
+        return self.title.encode('utf-8')
 
     def update_content(self, content, author, email, message):
         config = self.repo.config_writer()
@@ -68,7 +71,7 @@ class Repository(object):
         """
         Returns a list of posts, sorted by date (newest first).
         """
-        posts = [Post(self.root, b.path) for b in self.tree.blobs]
+        posts = [Post(self.root, b.path.encode('utf-8')) for b in self.tree.blobs]
         posts.sort(key=lambda p: p.creation_date, reverse=True)
         return posts
 

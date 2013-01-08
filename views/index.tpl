@@ -1,12 +1,12 @@
-% rebase base title=title, helpers=helpers
+% rebase base **locals()
 
 % for r in repositories:
 <section>
-    <a href="{{r.root}}"><h1>{{r.description}}</a></h1></a>
-    <ul>
-        % for p in r.posts:
-        <li><a href="{{r.root}}/{{p.title}}">{{p.title}}</a>
+    <a href="{{r.root}}"><h1>{{r.description}}</h1></a>
+    <ol>
+        % for post in r.posts:
+        <li><a href="{{r.root}}/{{post.title}}">{{post.title}}</a>
         % end
-    </ul>
+    </ol>
 </section>
 % end
