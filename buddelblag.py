@@ -26,8 +26,8 @@ directories = [
 
 view = functools.partial(
     view,
-    directories=directories,
     helpers=helpers,
+    repositories=[Repository(d) for d in directories],
     tagline=config.get('blog', 'tagline'),
     title=config.get('blog', 'title'),
 )
@@ -39,9 +39,7 @@ def send_static(filename):
 @route('/')
 @view('index')
 def index():
-    return {
-        'repositories': [Repository(d) for d in directories]
-    }
+    return {}
 
 @route('/:category')
 @view('category')

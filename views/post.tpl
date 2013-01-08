@@ -1,4 +1,4 @@
-% title=post.title
+% title=''
 % rebase base **locals()
 
 <article>

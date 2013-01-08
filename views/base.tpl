@@ -4,7 +4,9 @@
 <link rel=stylesheet href=/static/base.css>
 
 <header>
+    % if title:
     <h1>{{title}}</h1>
+    % end
 </header>
 
 % include
@@ -16,8 +18,8 @@
     <section>
     <h1>Categories</h1>
     <ul>
-        % for directory in directories:
-        <li><a href="/{{directory}}">{{directory}}</a>
+        % for repository in repositories:
+        <li><a href="/{{repository.root}}">{{repository.description}}</a>
         % end
     </ul>
     </section>
