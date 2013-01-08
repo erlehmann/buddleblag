@@ -48,7 +48,7 @@ def sanitize_html(html):
     """Sanitizes an HTML fragment."""
     p = html5lib.HTMLParser(tokenizer=HTMLSanitizer,
                             tree=treebuilders.getTreeBuilder("dom"))
-    dom_tree = p.parseFragment(html)
+    dom_tree = p.parseFragment(html, encoding='utf-8')
     walker = treewalkers.getTreeWalker("dom")
     stream = walker(dom_tree)
     s = serializer.HTMLSerializer(omit_optional_tags=False,
