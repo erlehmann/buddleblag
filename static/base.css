@@ -12,6 +12,33 @@
 
 /* global attributes */
 
+[contenteditable] h1::before, [contenteditable] h1::after,
+[contenteditable] p::before, [contenteditable] p::after,
+[contenteditable] ul::before, [contenteditable] ul::after,
+[contenteditable] ol::before, [contenteditable] ol::after {
+ display: block;
+ height: 0em;
+ opacity: 0;
+ overflow: hidden;
+ -moz-transition: all 1s;
+ -webkit-transition: all 1s;
+ transition: all 1s;
+}
+
+[contenteditable]:focus ::before, [contenteditable]:focus ::after {
+ height: 1.5em;
+ opacity: 0.65;
+}
+
+[contenteditable] h1::before { content: '<h1>'; }
+[contenteditable] h1::after { content: '</h1>'; }
+[contenteditable] p::before { content: '<p>'; }
+[contenteditable] p::after { content: '</p>'; }
+[contenteditable] ul::before { content: '<ul>'; }
+[contenteditable] ul::after { content: '</ul>'; }
+[contenteditable] ol::before { content: '<ol>'; }
+[contenteditable] ol::after { content: '</ol>'; }
+
 [title] {
  border-bottom: 1px dotted;
  cursor: help;
