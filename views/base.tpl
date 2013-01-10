@@ -23,4 +23,11 @@
         % end
     </ul>
     </section>
+    <section>
+% if username:
+        {{username}} (<a href="/logout">logout</a>)
+% else:
+        <a href="/login">login</a>
+% end
+    </section>
 </aside>
