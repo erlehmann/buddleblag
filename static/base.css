@@ -52,23 +52,16 @@ html {
 /* sections */
 
 body {
- background: url(grid.png);
  display: block;
  margin: 3em auto;
  padding: 3em;
  max-width: 51em;
- outline: 1px solid black;
  position: relative;
  left: 7.5em;
 }
 
 body > * {
  max-width: 33em;
-}
-
-body * {
- background: rgba(0,50,0,0.1);
- outline: 1px solid red;
 }
 
 section, nav, article, aside {
