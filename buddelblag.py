@@ -55,7 +55,7 @@ def access_denied():
         header={'WWW-Authenticate': 'Basic realm="%s"' % \
             config.get('blog', 'title')})
 
-def auth_required():
+def auth_required(view):
     @wraps(view)
     def wrapper(*args, **kwargs):
         if logged_in(request.auth):
