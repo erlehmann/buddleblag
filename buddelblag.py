@@ -44,7 +44,7 @@ def logged_in(auth):
 def access_denied():
     return HTTPError(401, 'Access denied!',
         header={'WWW-Authenticate': 'Basic realm="%s"' % \
-            config.get('blog', 'title')})
+            Repository(repository_path).description})
 
 def auth_required(view):
     @wraps(view)
