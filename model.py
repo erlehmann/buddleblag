@@ -3,29 +3,30 @@ from StringIO import StringIO
 from gitdb import IStream
 from sys import stderr
 
-import magic
-
 from datetime import datetime
+from html5lib import parseFragment
+from os import path
 
 class Post(object):
-    def __init__(self, directory, title):
-        self.title = title.decode('utf-8')
+    def __init__(self, directory, filename):
+        self.filename = filename.decode('utf-8')
         self.root = directory
         self.repo = Repo(self.root)
+        self.path = path.join(self.root, self.filename)
 
         try:
-            blob = self.repo.heads.master.commit.tree[self.title]
+            blob = self.repo.heads.master.commit.tree[self.filename]
             self.content = blob.data_stream.read()
         except KeyError:
             self.content = u'This space intentionally left blank.'
 
     def __str__(self):
-        return self.title
+        return self.path
 
     def get_creation_date(self):
         commits = [
             c for c in \
-                self.repo.iter_commits(paths=self.title.encode('utf-8'))
+                self.repo.iter_commits(paths=self.filename.encode('utf-8'))
         ]
         timestamp = commits[-1].committed_date
         return datetime.fromtimestamp(timestamp)
@@ -35,25 +36,25 @@ class Post(object):
     def get_content(self):
         return self.content
 
-    def get_mime_type(self):
-        ms = magic.Magic(magic.MAGIC_MIME)
-        return ms.from_buffer(self.get_content())
-
-    mime_type = property(get_mime_type)
-
     def get_title(self):
-        return self.title.encode('utf-8')
+        document = parseFragment(self.content, treebuilder='etree', \
+            namespaceHTMLElements=False, encoding='utf-8')
+        try:
+            return document.find('.//h1').text.encode('utf-8')
+            # FIXME (elements inside h1 are missing)
+        except AttributeError:
+            pass
+
+    title = property(get_title)
 
     def update_content(self, content, author, email, message):
         config = self.repo.config_writer()
         config.set_value("user", "name", author);
         config.set_value("user", "email", email);
 
-        filename = self.title
-
         istream = IStream("blob", len(content), StringIO(content))
         self.repo.odb.store(istream)
-        blob = Blob(self.repo, istream.binsha, 0100644, filename)
+        blob = Blob(self.repo, istream.binsha, 0100644, self.filename.encode('utf-8'))
         self.repo.index.add([IndexEntry.from_blob(blob)])
         self.repo.index.commit(message)
 

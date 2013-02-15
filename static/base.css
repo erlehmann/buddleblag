@@ -1,7 +1,7 @@
 /* reset */
 
 * {
- border: none;
+ /*border: none;*/
  font: inherit;
  font-size: 100%;
  margin: 0;
@@ -11,26 +11,6 @@
 }
 
 /* global attributes */
-
-[contenteditable] h1::before, [contenteditable] h1::after,
-[contenteditable] p::before, [contenteditable] p::after,
-[contenteditable] ul::before, [contenteditable] ul::after,
-[contenteditable] ol::before, [contenteditable] ol::after,
-[contenteditable] li::before, [contenteditable] li::after {
- display: run-in;
- opacity: 0.65;
-}
-
-[contenteditable] h1::before { content: '<h1>'; }
-[contenteditable] h1::after { content: '</h1>'; }
-[contenteditable] p::before { content: '<p>'; }
-[contenteditable] p::after { content: '</p>'; }
-[contenteditable] ul::before { content: '<ul>'; }
-[contenteditable] ul::after { content: '</ul>'; }
-[contenteditable] ol::before { content: '<ol>'; }
-[contenteditable] ol::after { content: '</ol>'; }
-[contenteditable] li:before { content: '<li>'; }
-[contenteditable] li:after { content: '</li>'; }
 
 [title] {
  border-bottom: 1px dotted;
@@ -49,15 +29,22 @@ html {
  line-height: 1.5;
 }
 
+html, body, form {
+ -ms-box-sizing: border-box;
+ -moz-box-sizing: border-box;
+ -o-box-sizing: border-box;
+ -webkit-box-sizing: border-box;
+ box-sizing: border-box;
+ height: 100%;
+}
+
 /* sections */
 
 body {
  display: block;
- margin: 3em auto;
+ margin: 0 auto;
  padding: 3em;
- max-width: 51em;
- position: relative;
- left: 7.5em;
+ max-width: 39em;
 }
 
 body > * {
@@ -80,6 +67,7 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
  font-size: 3em;
+ line-height: 1;
  margin-bottom: 0.5em;
 }
 
@@ -102,11 +90,8 @@ article header {
  margin-bottom: 1.5em;
 }
 
-body > aside {
- position: absolute;
- right: 3em;
- top: 3em;
- width: 15em;
+body > nav ul > li {
+ display: inline-block;
 }
 
 /* grouping content */
@@ -168,4 +153,69 @@ b {
 img, audio, video {
  border: 1px solid;
  width: 100%;
+}
+
+/* forms */
+
+form {
+ position: relative;
+}
+
+form, form > * {
+ display: block;
+ width: 100%;
+}
+
+form #toolbar {
+ bottom: 0;
+ height: 3em;
+ position: absolute;
+}
+
+form #editor {
+ bottom: 6em;
+ position: absolute;
+ top: 0;
+}
+
+textarea {
+ border: 1.5em solid white;
+ height: 100%;
+ margin-left: -1.5em;
+ margin-top: -1.5em;
+ outline: 1px solid #ccc;
+ white-space: nowrap;
+ width: 100%;
+}
+
+textarea, .wysihtml5-editor {
+ background: -ms-repeating-linear-gradient(top, transparent, transparent 1.4375em, #ccc 1.4375em, #ccc 1.5em);
+ background: -moz-repeating-linear-gradient(top, transparent, transparent 1.4375em, #ccc 1.4375em, #ccc 1.5em);
+ background: -o-repeating-linear-gradient(top, transparent, transparent 1.4375em, #ccc 1.4375em, #ccc 1.5em);
+ background: -webkit-repeating-linear-gradient(top, transparent, transparent 1.375em, #ccc 1.375em, #ccc 1.5em);
+ background: repeating-linear-gradient(top, transparent, transparent 1.4375em, #ccc 1.4375em, #ccc 1.5em);
+ }
+
+input[type=submit], button {
+ font-weight: bold;
+ height: 3em;
+ width: 15.75em;
+}
+
+input[type=submit] {
+ float: right;
+}
+
+button {
+ float: left;
+}
+
+
+table.posts tr td:first-of-type {
+ display: block;
+ position: relative;
+ left: -6.75em;
+ margin-bottom: 0.75em;
+ margin-right: -6.75em;
+ width: 6.75em;
 }

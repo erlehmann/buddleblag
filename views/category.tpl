@@ -1,26 +1,17 @@
 % title = repository.description
 % rebase base **locals()
 
-% inlist = False
-% year = None
+<h1>{{repository.description}}</h1>
+<table class=posts>
 % for post in repository.posts:
-%     if (post.creation_date.year != year):
-%         if inlist:
-  </ol>
-</section id={{post.creation_date.year}}>
-%             inlist = False
-%         end
-%     year = post.creation_date.year
-<section>
-  <header>
-    <a href=#{{post.creation_date.year}}><h1>{{post.creation_date.year}}</h1></a>
-  </header>
-  <ol>
-%        inlist = True
-%     end
-    <li><a href="{{repository.root}}/{{post.title}}">{{post.title}}</a>
+  <tr>
+    <td>{{post.creation_date.strftime('%Y-%m-%d')}}</td>
+    <td><a href="{{post.filename}}">{{post.title}}</a></td>
+  </tr>
 % end
-%     if inlist:
-</ol>
-</section>
+</table>
+<footer>
+% if not username:
+  <a href="/login">login</a>
 % end
+</footer>

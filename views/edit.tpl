@@ -1,13 +1,8 @@
-% rebase base config=config, helpers=helpers, auth=auth
+% title = post.title
+% rebase base **locals()
 
-<h1>{{post.title}}</h1>
-
-<form method=post action="/{{post.title}}">
-    <textarea name="content" height=60>{{post.content}}</textarea>
-
-    <label for="message">Commit Message</label>
-    <input id="message" type="text" required name="message">
-
-    <input type=submit>
+<form method=post action="/{{post.root}}/{{post.title}}">
+  <textarea name="content" autofocus required>{{! post.content}}</textarea>
+  <input type=reset value="Reset">
+  <input type=submit value="Save">
 </form>
-

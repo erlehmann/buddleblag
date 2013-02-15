@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from bottle import debug, HTTPError, redirect, request, route, run, static_file, view, get
+from bottle import debug, HTTPError, redirect, request, route, run, static_file, view, get, post
 from functools import partial, wraps
 from urllib2 import unquote
 from model import Post, Repository
@@ -20,18 +20,9 @@ def get_config(filename):
     return config
 
 config = get_config('./buddelblag.config')
-directories = [
-    d for d in walk('.').next()[1] \
-        if '.git' in walk(d).next()[1]
-]
+repository_path = 'posts'
 
-view = partial(
-    view,
-    helpers=helpers,
-    repositories=[Repository(d) for d in directories],
-    tagline=config.get('blog', 'tagline'),
-    title=config.get('blog', 'title')
-)
+view = partial(view, helpers=helpers)
 
 def username(auth):
     try:
@@ -68,10 +59,11 @@ def send_static(filename):
     return static_file(filename, root='./static/')
 
 @route('/')
-@view('index')
+@view('category')
 def index():
     return {
-        'username': username(request.auth)
+        'repository': Repository(repository_path),
+        'username': username(request.auth),
     }
 
 @route('/login')
@@ -83,32 +75,37 @@ def auth():
         redirect('/')
     return access_denied()
 
-@route('/logout')
-def deauth():
-    return access_denied()
-
-@route('/:category')
-@view('category')
-def view_category(category):
-    return {
-        'repository': Repository(unquote(category)),
-        'username': username(request.auth)
-    }
-
-@route('/:category/:title')
+@get('/:title')
 @view('post')
-def view_page(category, title):
+def view_page(title):
     return {
-        'post': Post(unquote(category), unquote(title)),
+        'post': Post(repository_path, unquote(title)),
         'username': username(request.auth)
     }
 
-@route('/:category/:title/raw')
-def raw_page(category, title):
-    return static_file(
-        unquote(title),
-        root=unquote(category)
-    )
+@post('/:title')
+@auth_required
+def commit_page(title):
+    content = request.POST['content']
+    message = "%s changed via web interface" % unquote(title)
+    name = request.auth[0]
+    email = config.get('emails', name)
+
+    post = Post(repository_path, unquote(title))
+    if post.content != content:
+        post.update_content(content, name, email, message)
+    else:
+        return HTTPError(400, 'Bad Request. Resource was not changed.')
+    redirect(title)
+
+@route('/:title/edit')
+@auth_required
+@view('edit')
+def edit_page(title):
+    return {
+        'post': Post(repository_path, unquote(title)),
+        'username': username(request.auth)
+    }
 
 debug(True)
 run(host='localhost', port=8080, reloader=True)
