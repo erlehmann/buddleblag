@@ -11,7 +11,7 @@
     <input type=submit>
   </div>
 </form>
-<script src="/static/advanced.js"></script>
+<script src="/static/wysihtml5-parser-rules.js"></script>
 <script src="/static/wysihtml5-0.3.0.js"></script>
 <script>
   var editor = new wysihtml5.Editor("content", {
