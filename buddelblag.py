@@ -62,6 +62,10 @@ def send_static(filename):
     return static_file(filename, root='./static/')
 
 @route('/')
+def redirect_index():
+    return redirect('/posts')
+
+@route('/posts')
 @view('category')
 def index():
     return {
