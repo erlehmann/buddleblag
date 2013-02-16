@@ -14,7 +14,7 @@
 % for post in repository.posts:
   <tr>
 %   if post.title is None:
-    <td><a href="{{post.path}}">{{helpers.get_first_sentence_from_html(post.content)}} […]</a></td>
+    <td><a href="{{post.path}}">{{helpers.get_first_sentence_from_html(post.content)}} …</a></td>
 %   else:
     <td><a href="{{post.path}}">{{post.title}}</a></td>
 %   end
