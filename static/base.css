@@ -179,11 +179,8 @@ form #editor {
 }
 
 textarea {
- border: 1.5em solid white;
+ border: none;
  height: 100%;
- margin-left: -1.5em;
- margin-top: -1.5em;
- outline: 1px solid #ccc;
  white-space: nowrap;
  width: 100%;
 }
@@ -210,12 +207,6 @@ button {
  float: left;
 }
 
-
-table.posts tr td:first-of-type {
- display: block;
- position: relative;
- left: -6.75em;
- margin-bottom: 0.75em;
- margin-right: -6.75em;
- width: 6.75em;
+table.posts td {
+ min-width: 6em;
 }

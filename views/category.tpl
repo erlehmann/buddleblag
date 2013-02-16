@@ -5,8 +5,8 @@
 <table class=posts>
 % for post in repository.posts:
   <tr>
-    <td>{{post.creation_date.strftime('%Y-%m-%d')}}</td>
     <td><a href="{{post.filename}}">{{post.title}}</a></td>
+    <td>{{post.creation_datetime.strftime('%d %b %Y ')}}</td>
   </tr>
 % end
 </table>

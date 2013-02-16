@@ -23,15 +23,30 @@ class Post(object):
     def __str__(self):
         return self.path
 
-    def get_creation_date(self):
-        commits = [
-            c for c in \
-                self.repo.iter_commits(paths=self.filename.encode('utf-8'))
-        ]
-        timestamp = commits[-1].committed_date
+    def _get_authors(self):
+        authors = set(
+            [c.author for c in self.repo.iter_commits(paths=self.filename.encode('utf-8'))]
+        )
+        return [{'name': a.name, 'email': a.email} for a in authors]
+
+    authors = property(_get_authors)
+
+    def _get_commits(self):
+        return [c for c in self.repo.iter_commits(paths=self.filename.encode('utf-8'))]
+
+    commits = property(_get_commits)
+
+    def _get_creation_datetime(self):
+        timestamp = self.commits[-1].committed_date
         return datetime.fromtimestamp(timestamp)
 
-    creation_date = property(get_creation_date)
+    creation_datetime = property(_get_creation_datetime)
+
+    def _get_update_datetime(self):
+        timestamp = self.commits[0].committed_date
+        return datetime.fromtimestamp(timestamp)
+
+    update_datetime = property(_get_update_datetime)
 
     def get_content(self):
         return self.content
@@ -73,7 +88,7 @@ class Repository(object):
         Returns a list of posts, sorted by date (newest first).
         """
         posts = [Post(self.root, b.path.encode('utf-8')) for b in self.tree.blobs]
-        posts.sort(key=lambda p: p.creation_date, reverse=True)
+        posts.sort(key=lambda p: p.creation_datetime, reverse=True)
         return posts
 
     posts = property(get_posts)

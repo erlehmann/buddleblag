@@ -63,7 +63,7 @@ def send_static(filename):
 def index():
     return {
         'repository': Repository(repository_path),
-        'username': username(request.auth),
+        'username': username(request.auth)
     }
 
 @route('/login')
@@ -104,7 +104,6 @@ def commit_page(title):
 def edit_page(title):
     return {
         'post': Post(repository_path, unquote(title)),
-        'username': username(request.auth)
     }
 
 debug(True)
