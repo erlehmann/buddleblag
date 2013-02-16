@@ -1,1 +1,3 @@
 *.pyc
+posts
+static/wysihtml5-parser-rules.js
