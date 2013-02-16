@@ -1,6 +1,6 @@
 <form action="{{action}}" method=post>
   <div id=editor>
-  <textarea name=content id=content>{{content}}</textarea>
+  <textarea name=content id=content cols=72 rows=20>{{content}}</textarea>
   </div>
   <div id=toolbar>
     <button data-wysihtml5-action="change_view">🔀 HTML</button>
