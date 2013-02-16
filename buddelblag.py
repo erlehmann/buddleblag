@@ -151,7 +151,6 @@ def get_feed():
                 'authors': post.authors,
                 'content': post.content,
                 'id': helpers.tag_uri(host, post.creation_datetime, post.path.encode('utf-8')),
-                'mime_type': 'text/html',
                 'title': post.title,
                 'updated': post.update_datetime,
                 'url': urljoin(
