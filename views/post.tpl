@@ -1,5 +1,6 @@
 % title=post.title
 % rebase base **locals()
+<link rel=up href="/posts">
 
 {{! helpers.sanitize_html(post.content)}}
 

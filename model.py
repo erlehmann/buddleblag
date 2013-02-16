@@ -86,6 +86,11 @@ class Repository(object):
         self.tree = self.repo.heads.master.commit.tree
         self.description = self.repo.description
 
+    def _get_creation_datetime(self):
+        return self.posts[-1].creation_datetime
+
+    creation_datetime = property(_get_creation_datetime)
+
     def _get_posts(self):
         """Returns a list of posts, sorted by date (newest first)."""
         posts = [Post(self.root, b.path.encode('utf-8')) for b in self.tree.blobs]
@@ -93,6 +98,11 @@ class Repository(object):
         return posts
 
     posts = property(_get_posts)
+
+    def _get_update_datetime(self):
+        return self.posts[0].creation_datetime
+
+    update_datetime = property(_get_update_datetime)
 
     def _get_archive(self):
         """Returns all posts in a POSIX tar archive."""

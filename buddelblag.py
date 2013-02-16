@@ -2,10 +2,11 @@
 # -*- coding: utf-8 -*-
 
 from bottle import debug, HTTPError, redirect, request, response, route, run, static_file, view, get, post, url
+from datetime import datetime
 from functools import partial, wraps
 from itertools import count
-from urllib2 import unquote
-from urlparse import urlsplit
+from urllib2 import unquote, quote
+from urlparse import urljoin, urlsplit
 from model import Post, Repository
 from ConfigParser import RawConfigParser
 from os import path, walk
@@ -25,6 +26,8 @@ def get_config(filename):
     return config
 
 config = get_config('./buddelblag.config')
+host = config.get('server', 'host')
+port = config.get('server', 'port')
 repository_path = 'posts'
 
 view = partial(view, helpers=helpers)
@@ -132,7 +135,36 @@ def get_archive():
     response.headers['Content-Disposition'] = 'attachment; filename=posts.tar'
     return repository.archive
 
-@get('/posts/:slug')
+@get('/feed')
+@view('feed')
+def get_feed():
+    repository = Repository(repository_path)
+    created = repository.creation_datetime
+    updated = repository.update_datetime
+    feed = {
+        'id': helpers.tag_uri(host, created, repository_path),
+        'self': request.url,
+        'title': repository.description,
+        'updated': updated,
+        'entries': [
+            {
+                'authors': post.authors,
+                'content': post.content,
+                'id': helpers.tag_uri(host, post.creation_datetime, post.path.encode('utf-8')),
+                'mime_type': 'text/html',
+                'title': post.title,
+                'updated': post.update_datetime,
+                'url': urljoin(
+                    'http://%s:%s' % (host, port),
+                    url('post', slug=quote(post.filename.encode('utf-8')))
+                ),
+            } for post in repository.posts
+        ]
+    }
+    response.headers['Content-Type'] = 'application/atom+xml'
+    return feed
+
+@get('/posts/:slug', name='post')
 @view('post')
 def view_page(slug):
     return {
@@ -152,7 +184,7 @@ def commit_page(slug):
     post = Post(repository_path, unquote(slug))
     if post.content != content:
         post.update_content(content, name, email, message)
-    redirect(url('/posts/:slug', slug=slug))
+    redirect(url('post', slug=slug))
 
 @route('/posts/:title/edit')
 @auth_required
@@ -163,4 +195,4 @@ def edit_page(title):
     }
 
 debug(True)
-run(host='localhost', port=8080, reloader=True)
+run(host=host, port=port, reloader=True)
