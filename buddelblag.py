@@ -13,6 +13,9 @@ locale.setlocale(locale.LC_ALL, '')  # use system default locale
 
 import helpers
 
+with open('static/wysihtml5-parser-rules.js', 'w') as f:
+    f.write(helpers.generate_wysihtml5_parser_rules())
+
 def get_config(filename):
     config = RawConfigParser()
     config.optionxform = str  # case sensitivity

@@ -5078,6 +5078,12 @@ wysihtml5.dom.parse = (function() {
         attributeValue = (attributeValue || "").replace(REG_EXP, "");
         return attributeValue || null;
       };
+    })(),
+    
+    any: (function() {
+      return function(attributeValue) {
+        return attributeValue || null;
+      };
     })()
   };
   

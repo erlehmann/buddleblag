@@ -55,3 +55,14 @@ def sanitize_html(html):
                                   quote_attr_values=True)
     output_generator = s.serialize(stream)
     return u''.join(output_generator)
+
+def generate_wysihtml5_parser_rules():
+    """Generates parser rules for WYSIHTML5 rich text editor."""
+    rules = 'var wysihtml5ParserRules = {tags:{'
+    for element in HTMLSanitizerMixin.acceptable_elements:
+        rules += '%s:{"check_attributes":{' % element
+        for attribute in HTMLSanitizerMixin.acceptable_attributes:
+            rules += '"%s":"any",' % attribute
+        rules += '}},'
+    rules += '}};'
+    return rules
