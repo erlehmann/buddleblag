@@ -16,7 +16,7 @@
   </author>
   % end
   <link rel="alternate" type="text/html" href="{{entry['url']}}"/>
-  <content type="{{entry['mime_type']}}">
+  <content type="html">
 <![CDATA[
 {{! helpers.sanitize_html(entry['content'])}}
 ]]>
