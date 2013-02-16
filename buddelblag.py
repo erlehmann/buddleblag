@@ -101,8 +101,6 @@ def commit_page(title):
     post = Post(repository_path, unquote(title))
     if post.content != content:
         post.update_content(content, name, email, message)
-    else:
-        return HTTPError(400, 'Bad Request. Resource was not changed.')
     redirect(title)
 
 @route('/posts/:title/edit')
