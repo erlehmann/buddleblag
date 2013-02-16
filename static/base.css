@@ -51,7 +51,7 @@ body > * {
  max-width: 33em;
 }
 
-section, nav, article, aside {
+section, nav, article, footer, table, form {
  display: block;
  margin-bottom: 1.5em;
 }
@@ -91,7 +91,20 @@ article header {
 }
 
 body > nav ul > li {
+ margin-right: 0.75em;
  display: inline-block;
+}
+
+body > nav ul > li > a {
+ -ms-appearance: button;
+ -moz-appearance: button;
+ -o-appearance: button;
+ -webkit-appearance: button;
+ appearance: button;
+ color: inherit;
+ display: table-cell;
+ text-align: center;
+ vertical-align: middle;
 }
 
 /* grouping content */
@@ -162,7 +175,6 @@ form {
 }
 
 form, form > * {
- display: block;
  width: 100%;
 }
 
@@ -173,7 +185,7 @@ form #toolbar {
 }
 
 form #editor {
- bottom: 6em;
+ bottom: 4.5em;
  position: absolute;
  top: 0;
 }
@@ -193,7 +205,7 @@ textarea, .wysihtml5-editor {
  background: repeating-linear-gradient(top, transparent, transparent 1.4375em, #ccc 1.4375em, #ccc 1.5em);
  }
 
-input[type=submit], button {
+nav ul > li > a, input[type=submit], button {
  font-weight: bold;
  height: 3em;
  width: 15.75em;
@@ -208,5 +220,10 @@ button {
 }
 
 table.posts td {
- min-width: 6em;
+ min-width: 7.5em;
 }
+
+table.posts td:last-of-type {
+ opacity: 0.8;
+ text-align: right;
+)

@@ -2,6 +2,12 @@
 % rebase base **locals()
 
 <h1>{{repository.description}}</h1>
+
+% if username:
+<style>form { height: 12em; }</style>
+% include editor action="/posts", content=''
+% end
+
 <table class=posts>
 % for post in repository.posts:
   <tr>
@@ -10,8 +16,12 @@
   </tr>
 % end
 </table>
-<footer>
+
+<nav>
+  <ul>
 % if not username:
-  <a href="/login">login</a>
-% end
-</footer>
+    <li><a href="/login">🔓 Login</a>
+% else:
+    <li><a href="/logout">🔒 Logout</a>
+  </ul>
+</nav>

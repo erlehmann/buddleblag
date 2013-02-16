@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from bottle import debug, HTTPError, redirect, request, route, run, static_file, view, get, post
+from bottle import debug, HTTPError, redirect, request, route, run, static_file, view, get, post, url
 from functools import partial, wraps
+from itertools import count
 from urllib2 import unquote
+from urlparse import urlsplit
 from model import Post, Repository
 from ConfigParser import RawConfigParser
 from os import path, walk
@@ -49,12 +51,25 @@ def access_denied():
         header={'WWW-Authenticate': 'Basic realm="%s"' % \
             Repository(repository_path).description})
 
+def forbidden():
+    return HTTPError(403, 'Forbidden!')
+
 def auth_required(view):
     @wraps(view)
     def wrapper(*args, **kwargs):
         if logged_in(request.auth):
             return view(*args, **kwargs)
         return access_denied()
+    return wrapper
+
+def referer_required(view):
+    @wraps(view)
+    def wrapper(*args, **kwargs):
+        referer = request.headers.get('referer')
+        if referer is not None:
+            if urlsplit(referer).netloc == urlsplit(request.url).netloc:
+                return view(*args, **kwargs)
+        return forbidden()
     return wrapper
 
 @route('/static/:filename')
@@ -65,7 +80,7 @@ def send_static(filename):
 def redirect_index():
     return redirect('/posts')
 
-@route('/posts')
+@get('/posts')
 @view('category')
 def index():
     return {
@@ -73,35 +88,64 @@ def index():
         'username': username(request.auth)
     }
 
-@route('/login')
+@post('/posts')
+@auth_required
+@referer_required
+def create_page():
+    content = request.POST['content']
+    filename = helpers.generate_slug(content)
+
+    post = Post(repository_path, filename)
+    if post.exists:
+        for i in count(start=2):
+            alternate_filename = '%s-%s' % (filename, i)
+            post = Post(repository_path, alternate_filename)
+            print i, alternate_filename
+            if not post.exists:
+                break
+        filename = alternate_filename
+
+    message = "%s created via web interface" % unquote(filename)
+    name = request.auth[0]
+    email = config.get('emails', name)
+    post.update_content(content, name, email, message)
+    redirect(url('/posts/:slug', slug=filename))
+
+@get('/login')
 def auth():
-    referer = request.headers.get('referer')
     if logged_in(request.auth):
+        referer = request.headers.get('referer')
         if referer:
             redirect(referer)
         redirect('/')
     return access_denied()
 
-@get('/posts/:title')
+@get('/logout')
+@referer_required
+def deauth():
+    return access_denied()
+
+@get('/posts/:slug')
 @view('post')
-def view_page(title):
+def view_page(slug):
     return {
-        'post': Post(repository_path, unquote(title)),
+        'post': Post(repository_path, unquote(slug)),
         'username': username(request.auth)
     }
 
-@post('/posts/:title')
+@post('/posts/:slug')
 @auth_required
-def commit_page(title):
+@referer_required
+def commit_page(slug):
     content = request.POST['content']
-    message = "%s changed via web interface" % unquote(title)
+    message = "%s changed via web interface" % unquote(slug)
     name = request.auth[0]
     email = config.get('emails', name)
 
-    post = Post(repository_path, unquote(title))
+    post = Post(repository_path, unquote(slug))
     if post.content != content:
         post.update_content(content, name, email, message)
-    redirect(title)
+    redirect(url('/posts/:slug', slug=slug))
 
 @route('/posts/:title/edit')
 @auth_required

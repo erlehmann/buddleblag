@@ -18,7 +18,7 @@ class Post(object):
             blob = self.repo.heads.master.commit.tree[self.filename]
             self.content = blob.data_stream.read()
         except KeyError:
-            self.content = u'This space intentionally left blank.'
+            self.content = None
 
     def __str__(self):
         return self.path
@@ -46,6 +46,11 @@ class Post(object):
         timestamp = self.commits[0].committed_date
         return datetime.fromtimestamp(timestamp)
 
+    def _exists(self):
+        return bool(self.commits)
+
+    exists = property(_exists)
+
     update_datetime = property(_get_update_datetime)
 
     def get_content(self):
@@ -55,10 +60,11 @@ class Post(object):
         document = parseFragment(self.content, treebuilder='etree', \
             namespaceHTMLElements=False, encoding='utf-8')
         try:
-            return document.find('.//h1').text.encode('utf-8')
-            # FIXME (elements inside h1 are missing)
+            text = \
+                ' '.join([w for w in document.find('.//h1').itertext()])
         except AttributeError:
-            pass
+            text = ' '.join([w for w in document.itertext()])
+        return text.encode('utf-8')
 
     title = property(get_title)
 
@@ -72,9 +78,6 @@ class Post(object):
         blob = Blob(self.repo, istream.binsha, 0100644, self.filename.encode('utf-8'))
         self.repo.index.add([IndexEntry.from_blob(blob)])
         self.repo.index.commit(message)
-
-    def update_title(self, new_title):
-        pass
 
 class Repository(object):
     def __init__(self, directory):
