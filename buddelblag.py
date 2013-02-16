@@ -129,6 +129,7 @@ def deauth():
 def get_archive():
     repository = Repository(repository_path)
     response.headers['Content-Type'] = 'application/x-tar'
+    response.headers['Content-Disposition'] = 'attachment; filename=posts.tar'
     return repository.archive
 
 @get('/posts/:slug')
