@@ -13,7 +13,11 @@
 <table class=posts>
 % for post in repository.posts:
   <tr>
-    <td><a href="/posts/{{post.filename}}">{{post.title}}</a></td>
+%   if post.title is None:
+    <td><a href="{{post.path}}">{{helpers.get_first_sentence_from_html(post.content)}} […]</a></td>
+%   else:
+    <td><a href="{{post.path}}">{{post.title}}</a></td>
+%   end
     <td>{{post.creation_datetime.strftime('%d %b %Y ')}}</td>
   </tr>
 % end

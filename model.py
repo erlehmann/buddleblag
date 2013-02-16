@@ -62,9 +62,9 @@ class Post(object):
         try:
             text = \
                 ' '.join([w for w in document.find('.//h1').itertext()])
+            return text.encode('utf-8')
         except AttributeError:
-            text = ' '.join([w for w in document.itertext()])
-        return text.encode('utf-8')
+            return None
 
     title = property(get_title)
 
