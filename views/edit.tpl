@@ -1,7 +1,7 @@
 % title = post.title
 % rebase base **locals()
 
-<form action="/{{post.filename}}" method=post>
+<form action="/posts/{{post.filename}}" method=post>
   <div id=editor>
   <textarea name=content id=content>{{helpers.sanitize_html(post.content)}}</textarea>
   </div>

@@ -75,7 +75,7 @@ def auth():
         redirect('/')
     return access_denied()
 
-@get('/:title')
+@get('/posts/:title')
 @view('post')
 def view_page(title):
     return {
@@ -83,7 +83,7 @@ def view_page(title):
         'username': username(request.auth)
     }
 
-@post('/:title')
+@post('/posts/:title')
 @auth_required
 def commit_page(title):
     content = request.POST['content']
@@ -98,7 +98,7 @@ def commit_page(title):
         return HTTPError(400, 'Bad Request. Resource was not changed.')
     redirect(title)
 
-@route('/:title/edit')
+@route('/posts/:title/edit')
 @auth_required
 @view('edit')
 def edit_page(title):
