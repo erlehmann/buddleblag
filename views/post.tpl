@@ -7,6 +7,6 @@
 % if username:
   <a href="{{post.filename}}/edit">edit</a>
 % else:
-  <a href="mailto:{{post.authors[0]['email']}}?subject={{helpers.quote('Re: ' + post.filename)}}">comment</a>
+  <a href="mailto:{{post.authors[0]['email']}}?subject={{helpers.quote('Re: ' + post.filename.encode('utf-8'))}}">comment</a>
 % end
 </footer>
