@@ -86,15 +86,13 @@ class Repository(object):
         self.tree = self.repo.heads.master.commit.tree
         self.description = self.repo.description
 
-    def get_posts(self):
-        """
-        Returns a list of posts, sorted by date (newest first).
-        """
+    def _get_posts(self):
+        """Returns a list of posts, sorted by date (newest first)."""
         posts = [Post(self.root, b.path.encode('utf-8')) for b in self.tree.blobs]
         posts.sort(key=lambda p: p.creation_datetime, reverse=True)
         return posts
 
-    posts = property(get_posts)
+    posts = property(_get_posts)
 
     def _get_archive(self):
         """Returns all posts in a POSIX tar archive."""
