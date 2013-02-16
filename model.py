@@ -95,3 +95,11 @@ class Repository(object):
         return posts
 
     posts = property(get_posts)
+
+    def _get_archive(self):
+        """Returns all posts in a POSIX tar archive."""
+        f = StringIO()
+        self.repo.archive(f)
+        return f.getvalue()
+
+    archive = property(_get_archive)

@@ -1,5 +1,6 @@
 % title = repository.description
 % rebase base **locals()
+<link rel=alternate href="/archive" type="application/x-tar" title="Archive">
 
 <h1>{{repository.description}}</h1>
 

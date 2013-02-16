@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from bottle import debug, HTTPError, redirect, request, route, run, static_file, view, get, post, url
+from bottle import debug, HTTPError, redirect, request, response, route, run, static_file, view, get, post, url
 from functools import partial, wraps
 from itertools import count
 from urllib2 import unquote
@@ -124,6 +124,12 @@ def auth():
 @referer_required
 def deauth():
     return access_denied()
+
+@get('/archive')
+def get_archive():
+    repository = Repository(repository_path)
+    response.headers['Content-Type'] = 'application/x-tar'
+    return repository.archive
 
 @get('/posts/:slug')
 @view('post')
