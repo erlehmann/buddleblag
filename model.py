@@ -40,13 +40,13 @@ class Post(object):
     commits = property(_get_commits)
 
     def _get_creation_datetime(self):
-        timestamp = self.commits[-1].committed_date
+        timestamp = self.commits[-1].authored_date
         return datetime.fromtimestamp(timestamp)
 
     creation_datetime = property(_get_creation_datetime)
 
     def _get_update_datetime(self):
-        timestamp = self.commits[0].committed_date
+        timestamp = self.commits[0].authored_date
         return datetime.fromtimestamp(timestamp)
 
     def _exists(self):
