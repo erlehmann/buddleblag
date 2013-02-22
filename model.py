@@ -14,12 +14,6 @@ class Post(object):
         self.repo = Repo(self.root)
         self.path = path.join(self.root, self.filename)
 
-        try:
-            blob = self.repo.heads.master.commit.tree[self.filename]
-            self.content = blob.data_stream.read()
-        except KeyError:
-            self.content = None
-
     def __str__(self):
         return self.path
 
@@ -30,6 +24,15 @@ class Post(object):
         return [{'name': a.name, 'email': a.email} for a in authors]
 
     authors = property(_get_authors)
+
+    def _get_content(self):
+        try:
+            blob = self.repo.heads.master.commit.tree[self.filename]
+            return blob.data_stream.read()
+        except KeyError:
+            return None
+
+    content = property(_get_content)
 
     def _get_commits(self):
         return [c for c in self.repo.iter_commits(paths=self.filename.encode('utf-8'))]
