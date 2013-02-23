@@ -46,15 +46,15 @@ class Post(object):
     creation_datetime = property(_get_creation_datetime)
 
     def _get_update_datetime(self):
-        timestamp = self.commits[0].authored_date
-        return datetime.fromtimestamp(timestamp)
+        last_commit = self.repo.iter_commits(paths=self.filename.encode('utf-8')).next()
+        return datetime.fromtimestamp(last_commit.authored_date)
+
+    update_datetime = property(_get_update_datetime)
 
     def _exists(self):
         return bool(self.commits)
 
     exists = property(_exists)
-
-    update_datetime = property(_get_update_datetime)
 
     def get_content(self):
         return self.content
