@@ -90,9 +90,14 @@ class Repository(object):
         self.description = self.repo.description
 
     def _get_creation_datetime(self):
-        return self.posts[-1].creation_datetime
+        return commits[-1].creation_datetime
 
     creation_datetime = property(_get_creation_datetime)
+
+    def _get_commits(self):
+        return list(self.iter_commits())
+
+    commits = property(_get_commits)
 
     def _get_posts(self):
         """Returns a list of posts, sorted by date (newest first)."""
@@ -103,7 +108,7 @@ class Repository(object):
     posts = property(_get_posts)
 
     def _get_update_datetime(self):
-        return self.posts[0].creation_datetime
+        return commits[0].creation_datetime
 
     update_datetime = property(_get_update_datetime)
 
