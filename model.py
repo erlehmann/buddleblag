@@ -35,7 +35,7 @@ class Post(object):
     content = property(_get_content)
 
     def _get_commits(self):
-        return [c for c in self.repo.iter_commits(paths=self.filename.encode('utf-8'))]
+        return list(self.repo.iter_commits(paths=self.filename.encode('utf-8')))
 
     commits = property(_get_commits)
 
