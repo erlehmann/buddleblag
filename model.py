@@ -4,11 +4,10 @@ from gitdb import IStream
 from sys import stderr
 
 from datetime import datetime
+from functools import wraps
 from hashlib import md5
 from html5lib import parseFragment
 from os import path
-
-from functools import wraps
 
 def memoize(function):
     """
