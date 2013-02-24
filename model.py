@@ -16,7 +16,7 @@ def memoize(function):
     cache = {}
     @wraps(function)
     def wrapper(*args, **kwargs):
-        key = (function, args, tuple(kwargs))
+        key = (function.func_name, args, tuple(kwargs))
         try:
             result = cache[key]
         except KeyError:
