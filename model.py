@@ -182,28 +182,6 @@ class Repository(object):
     posts = property(_get_posts)
 
     @memoize_for_head
-    def _get_posts_sorted_by_creation(self):
-        """
-        Returns a list of posts, sorted by creation.
-        """
-        posts = sorted(self.posts, key=lambda p: p.creation_datetime, \
-                           reverse=True)
-        return posts
-
-    posts_sorted_by_creation = property(_get_posts_sorted_by_creation)
-
-    @memoize_for_head
-    def _get_posts_sorted_by_update(self):
-        """
-        Returns a list of posts, sorted by update.
-        """
-        posts = sorted(self.posts, key=lambda p: p.update_datetime, \
-                           reverse=True)
-        return posts
-
-    posts_sorted_by_update = property(_get_posts_sorted_by_update)
-
-    @memoize_for_head
     def _get_update_datetime(self):
         timestamp = self.commits[0].authored_date
         return datetime.fromtimestamp(timestamp)

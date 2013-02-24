@@ -89,10 +89,23 @@ def redirect_index():
 @get('/posts')
 @view('category')
 def index():
-    return {
-        'repository': Repository(repository_path),
-        'username': username(request.auth)
+    repository = Repository(repository_path)
+    response = {
+        'username': username(request.auth),
+        'title': repository.description,
+        'posts': [
+            {
+                'title': post.title or helpers.get_first_sentence_from_html(post.content) + ' …',
+                'created': post.creation_datetime,
+                'url': urljoin(
+                    '//%s:%s' % (host, port),
+                    url('post', slug=quote(post.filename.encode('utf-8')))
+                ),
+            } for post in sorted(repository.posts, key=lambda p: \
+                                     p.creation_datetime, reverse=True)
+        ]
     }
+    return response
 
 @post('/posts')
 @auth_required
@@ -160,7 +173,8 @@ def get_feed():
                     'http://%s:%s' % (host, port),
                     url('post', slug=quote(post.filename.encode('utf-8')))
                 ),
-            } for post in repository.posts_sorted_by_update
+            } for post in sorted(repository.posts, key=lambda p: \
+                                     p.update_datetime, reverse=True)
         ]
     }
     response.headers['Content-Type'] = 'application/atom+xml'

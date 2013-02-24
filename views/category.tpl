@@ -1,9 +1,8 @@
-% title = repository.description
 % rebase base **locals()
 <link rel=alternate href="/feed" type="application/atom+xml" title="Feed">
 <link rel=alternate href="/archive" type="application/x-tar" title="Archive">
 
-<h1>{{repository.description}}</h1>
+<h1>{{title}}</h1>
 
 % if username:
 <style>form { height: 12em; }</style>
@@ -11,14 +10,10 @@
 % end
 
 <table class=posts>
-% for post in repository.posts_sorted_by_creation:
+% for post in posts:
   <tr>
-%   if post.title is None:
-    <td><a href="{{post.path}}">{{helpers.get_first_sentence_from_html(post.content)}} …</a></td>
-%   else:
-    <td><a href="{{post.path}}">{{post.title}}</a></td>
-%   end
-    <td>{{post.creation_datetime.strftime('%d %b %Y ')}}</td>
+    <td><a href="{{post['url']}}">{{post['title']}}</a></td>
+    <td>{{post['created'].strftime('%d %b %Y ')}}</td>
   </tr>
 % end
 </table>
