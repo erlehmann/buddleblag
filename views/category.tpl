@@ -11,7 +11,7 @@
 % end
 
 <table class=posts>
-% for post in repository.posts:
+% for post in repository.posts_sorted_by_creation:
   <tr>
 %   if post.title is None:
     <td><a href="{{post.path}}">{{helpers.get_first_sentence_from_html(post.content)}} …</a></td>

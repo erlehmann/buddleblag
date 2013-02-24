@@ -11,7 +11,7 @@ from os import path
 
 def memoize(function):
     """
-    Decorator that caches a functions return value forever.
+    Decorator that caches a function's return value forever.
     """
     cache = {}
     @wraps(function)
@@ -21,6 +21,24 @@ def memoize(function):
             result = cache[key]
         except KeyError:
             result = function(*args, **kwargs)
+            cache[key] = result
+        return result
+    return wrapper
+
+def memoize_for_head(function):
+    """
+    Decorator that caches a object method's return value as long as
+    the repository HEAD of the objects repo property stays the same.
+    """
+    cache = {}
+    @wraps(function)
+    def wrapper(caller, *args, **kwargs):
+        head = caller.repo.heads.master.commit.hexsha
+        key = (head, function.func_name, caller, args, tuple(kwargs))
+        try:
+            result = cache[key]
+        except KeyError:
+            result = function(caller, *args, **kwargs)
             cache[key] = result
         return result
     return wrapper
@@ -44,14 +62,17 @@ class Post(object):
     def __str__(self):
         return self.path.encode('utf-8')
 
+    @memoize_for_head
     def _get_authors(self):
         authors = set(
-            [c.author for c in self.repo.iter_commits(paths=self.filename.encode('utf-8'))]
+            [c.author for c in self.repo.iter_commits(\
+                    paths=self.filename.encode('utf-8'))]
         )
         return [{'name': a.name, 'email': a.email} for a in authors]
 
     authors = property(_get_authors)
 
+    @memoize_for_head
     def _get_content(self):
         try:
             blob = self.repo.heads.master.commit.tree[self.filename]
@@ -61,8 +82,10 @@ class Post(object):
 
     content = property(_get_content)
 
+    @memoize_for_head
     def _get_commits(self):
-        commits = list(self.repo.iter_commits(paths=self.filename.encode('utf-8')))
+        commits = list(self.repo.iter_commits(\
+                paths=self.filename.encode('utf-8')))
         return commits
 
     commits = property(_get_commits)
@@ -74,12 +97,15 @@ class Post(object):
 
     creation_datetime = property(_get_creation_datetime)
 
+    @memoize_for_head
     def _get_update_datetime(self):
-        timestamp = self.repo.iter_commits(paths=self.filename.encode('utf-8')).next().authored_date
+        timestamp = self.repo.iter_commits(\
+            paths=self.filename.encode('utf-8')).next().authored_date
         return datetime.fromtimestamp(timestamp)
 
     update_datetime = property(_get_update_datetime)
 
+    @memoize_for_head
     def _exists(self):
         return bool(self.commits)
 
@@ -88,6 +114,7 @@ class Post(object):
     def get_content(self):
         return self.content
 
+    @memoize_for_head
     def get_title(self):
         document = parseFragment(self.content, treebuilder='etree', \
             namespaceHTMLElements=False, encoding='utf-8')
@@ -118,29 +145,72 @@ class Repository(object):
         self.tree = self.repo.heads.master.commit.tree
         self.description = self.repo.description
 
+    def __eq__(self, other):
+        return hash(self) == hash(other)
+
+    def __hash__(self):
+        return int(md5(str(self)).hexdigest(), 16)
+
+    def __repr__(self):
+        return str(self)
+
+    def __str__(self):
+        return self.root.encode('utf-8')
+
+    @memoize
     def _get_creation_datetime(self):
-        return commits[-1].creation_datetime
+        timestamp = self.commits[-1].authored_date
+        return datetime.fromtimestamp(timestamp)
 
     creation_datetime = property(_get_creation_datetime)
 
+    @memoize_for_head
     def _get_commits(self):
-        return list(self.iter_commits())
+        return list(self.repo.iter_commits())
 
     commits = property(_get_commits)
 
+    @memoize_for_head
     def _get_posts(self):
-        """Returns a list of posts, sorted by date (newest first)."""
-        posts = [Post(self.root, b.path.encode('utf-8')) for b in self.tree.blobs]
-        posts.sort(key=lambda p: p.creation_datetime, reverse=True)
+        """
+        Returns a list of posts, unsorted.
+        """
+        posts = [Post(self.root, b.path.encode('utf-8')) for b in \
+                     self.tree.blobs]
         return posts
 
     posts = property(_get_posts)
 
+    @memoize_for_head
+    def _get_posts_sorted_by_creation(self):
+        """
+        Returns a list of posts, sorted by creation.
+        """
+        posts = sorted(self.posts, key=lambda p: p.creation_datetime, \
+                           reverse=True)
+        return posts
+
+    posts_sorted_by_creation = property(_get_posts_sorted_by_creation)
+
+    @memoize_for_head
+    def _get_posts_sorted_by_update(self):
+        """
+        Returns a list of posts, sorted by update.
+        """
+        posts = sorted(self.posts, key=lambda p: p.update_datetime, \
+                           reverse=True)
+        return posts
+
+    posts_sorted_by_update = property(_get_posts_sorted_by_update)
+
+    @memoize_for_head
     def _get_update_datetime(self):
-        return commits[0].creation_datetime
+        timestamp = self.commits[0].authored_date
+        return datetime.fromtimestamp(timestamp)
 
     update_datetime = property(_get_update_datetime)
 
+    @memoize_for_head
     def _get_archive(self):
         """Returns all posts in a POSIX tar archive."""
         f = StringIO()

@@ -30,7 +30,8 @@ port = config.get('server', 'port')
 repository_path = 'posts'
 
 print 'Caching post metadata …'
-[p.creation_datetime for p in Repository(repository_path).posts]
+for p in Repository(repository_path).posts:
+    print p.creation_datetime, p.title
 
 view = partial(view, helpers=helpers)
 
@@ -159,7 +160,7 @@ def get_feed():
                     'http://%s:%s' % (host, port),
                     url('post', slug=quote(post.filename.encode('utf-8')))
                 ),
-            } for post in repository.posts
+            } for post in repository.posts_sorted_by_update
         ]
     }
     response.headers['Content-Type'] = 'application/atom+xml'
