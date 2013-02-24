@@ -30,6 +30,9 @@ host = config.get('server', 'host')
 port = config.get('server', 'port')
 repository_path = 'posts'
 
+print 'Caching post metadata …'
+[p.creation_datetime for p in Repository(repository_path).posts]
+
 view = partial(view, helpers=helpers)
 
 def username(auth):

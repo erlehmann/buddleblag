@@ -4,8 +4,27 @@ from gitdb import IStream
 from sys import stderr
 
 from datetime import datetime
+from hashlib import md5
 from html5lib import parseFragment
 from os import path
+
+from functools import wraps
+
+def memoize(function):
+    """
+    Decorator that caches a functions return value forever.
+    """
+    cache = {}
+    @wraps(function)
+    def wrapper(*args, **kwargs):
+        key = (function, args, tuple(kwargs))
+        try:
+            result = cache[key]
+        except KeyError:
+            result = function(*args, **kwargs)
+            cache[key] = result
+        return result
+    return wrapper
 
 class Post(object):
     def __init__(self, directory, filename):
@@ -14,8 +33,17 @@ class Post(object):
         self.repo = Repo(self.root)
         self.path = path.join(self.root, self.filename)
 
+    def __eq__(self, other):
+        return hash(self) == hash(other)
+
+    def __hash__(self):
+        return int(md5(str(self)).hexdigest(), 16)
+
+    def __repr__(self):
+        return str(self)
+
     def __str__(self):
-        return self.path
+        return self.path.encode('utf-8')
 
     def _get_authors(self):
         authors = set(
@@ -35,10 +63,12 @@ class Post(object):
     content = property(_get_content)
 
     def _get_commits(self):
-        return list(self.repo.iter_commits(paths=self.filename.encode('utf-8')))
+        commits = list(self.repo.iter_commits(paths=self.filename.encode('utf-8')))
+        return commits
 
     commits = property(_get_commits)
 
+    @memoize
     def _get_creation_datetime(self):
         timestamp = self.commits[-1].authored_date
         return datetime.fromtimestamp(timestamp)
