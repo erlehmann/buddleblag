@@ -9,7 +9,6 @@ from urllib2 import unquote, quote
 from urlparse import urljoin, urlsplit
 from model import Post, Repository
 from ConfigParser import RawConfigParser
-from os import path, walk
 
 import locale
 locale.setlocale(locale.LC_ALL, '')  # use system default locale
