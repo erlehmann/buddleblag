@@ -28,9 +28,10 @@ config = get_config('./buddelblag.config')
 host = config.get('server', 'host')
 port = config.get('server', 'port')
 repository_path = 'posts'
+repository = Repository(repository_path)
 
 print 'Caching post metadata …'
-for p in Repository(repository_path).posts:
+for p in repository.posts:
     print p.creation_datetime, p.title
 
 view = partial(view, helpers=helpers)
@@ -55,7 +56,7 @@ def logged_in(auth):
 def access_denied():
     return HTTPError(401, 'Access denied!',
         header={'WWW-Authenticate': 'Basic realm="%s"' % \
-            Repository(repository_path).description})
+            repository.description})
 
 def forbidden():
     return HTTPError(403, 'Forbidden!')
@@ -102,7 +103,6 @@ def redirect_index():
 @etag
 @view('category')
 def index():
-    repository = Repository(repository_path)
     response = {
         'username': username(request.auth),
         'title': repository.description,
@@ -159,7 +159,6 @@ def deauth():
 
 @get('/archive')
 def get_archive():
-    repository = Repository(repository_path)
     response.headers['Content-Type'] = 'application/x-tar'
     response.headers['Content-Disposition'] = 'attachment; filename=posts.tar'
     return repository.archive
@@ -168,7 +167,6 @@ def get_archive():
 @etag
 @view('feed')
 def get_feed():
-    repository = Repository(repository_path)
     created = repository.creation_datetime
     updated = repository.update_datetime
     feed = {
