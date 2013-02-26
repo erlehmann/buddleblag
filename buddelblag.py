@@ -80,10 +80,10 @@ def referer_required(view):
     return wrapper
 
 def etag(view):
-    repository = Repository(repository_path)
     @wraps(view)
     def wrapper(*args, **kwargs):
-        etag = repository.repo.heads.master.commit.hexsha
+        etag = repository.repo.heads.master.commit.hexsha + \
+            username(request.auth)
         if request.headers.get('If-None-Match') == etag:
                 return HTTPResponse('Not Modified', 304)
         else:
