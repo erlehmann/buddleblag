@@ -217,6 +217,7 @@ def commit_page(slug):
 
 @route('/posts/:title/edit')
 @auth_required
+@etag
 @view('edit')
 def edit_page(title):
     return {
