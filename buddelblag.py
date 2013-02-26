@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from bottle import debug, HTTPError, redirect, request, response, route, run, static_file, view, get, post, url
+from bottle import debug, HTTPError, HTTPResponse, redirect, request, response, route, run, static_file, view, get, post, url
 from datetime import datetime
 from functools import partial, wraps
 from itertools import count
@@ -78,6 +78,18 @@ def referer_required(view):
         return forbidden()
     return wrapper
 
+def etag(view):
+    repository = Repository(repository_path)
+    @wraps(view)
+    def wrapper(*args, **kwargs):
+        etag = repository.repo.heads.master.commit.hexsha
+        if request.headers.get('If-None-Match') == etag:
+                return HTTPResponse('Not Modified', 304)
+        else:
+            response.headers['ETag'] = etag
+            return view(*args, **kwargs)
+    return wrapper
+
 @route('/static/:filename')
 def send_static(filename):
     return static_file(filename, root='./static/')
@@ -87,6 +99,7 @@ def redirect_index():
     return redirect('/posts')
 
 @get('/posts')
+@etag
 @view('category')
 def index():
     repository = Repository(repository_path)
@@ -152,6 +165,7 @@ def get_archive():
     return repository.archive
 
 @get('/feed')
+@etag
 @view('feed')
 def get_feed():
     repository = Repository(repository_path)
@@ -181,6 +195,7 @@ def get_feed():
     return feed
 
 @get('/posts/:slug', name='post')
+@etag
 @view('post')
 def view_page(slug):
     return {
