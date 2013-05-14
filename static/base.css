@@ -132,9 +132,9 @@ abbr {
 }
 
 code, var, samp, kbd {
- font-family, 'Monospace', monospace;
+ font-family: 'Monospace', monospace;
  overflow-x: auto;
- whitespace: pre;
+ white-space: pre-wrap;
 }
 
 var {
