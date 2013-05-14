@@ -12,9 +12,8 @@
 <table class=posts>
 % for post in posts:
   <tr>
-    <td><a href="{{post['url']}}">{{post['title']}}</a></td>
-    <td>{{post['created'].strftime('%d %b %Y ')}}</td>
-  </tr>
+    <td><a href="{{post['url']}}">{{post['title']}}</a>
+    <td>{{post['created'].strftime('%d %b %Y ')}}
 % end
 </table>
 
