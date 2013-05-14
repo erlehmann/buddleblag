@@ -12,6 +12,7 @@ class HTMLSanitizerMixin(sanitizer.HTMLSanitizerMixin):
         'a', 'em', 'strong', 'small', 's', 'cite',      # text-level semantics
         'q', 'dfn', 'abbr', 'time', 'code', 'var',
         'samp', 'kbd', 'sup', 'sup', 'i', 'b',
+        'ins', 'del',                                   # edits
         'img', 'video', 'audio', 'source',              # embedded content
         'table', 'caption', 'colgroup', 'col', 'col',   # tabular content
         'tbody', 'thead', 'tfoot', 'tr', 'td', 'th'

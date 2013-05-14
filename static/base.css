@@ -161,6 +161,50 @@ b {
  font-weight: bold;
 }
 
+/* edits */
+
+article {
+ counter-reset: edit;
+}
+
+del, ins {
+}
+
+ins, ins > p {
+ text-decoration: none;
+}
+
+del, del > p {
+ text-decoration: line-through;
+}
+
+p > ins::before {
+    content: "⌊";
+    font-weight: bold;
+}
+
+p > ins::after {
+    content: "⌋";
+    font-weight: bold;
+}
+
+article > ins > :first-child::before {
+    content: "⌊Update (" counter(edit, decimal) "): ";
+    counter-increment: edit;
+    font-weight: bold;
+}
+
+article > ins:first-of-type > :first-child::before {
+    content: "⌊Update: ";
+    counter-increment: edit;
+    font-weight: bold;
+}
+
+article > ins > :last-child::after {
+    content: "⌋";
+    font-weight: bold;
+}
+
 /* embedded content */
 
 img, audio, video {
