@@ -1,9 +1,9 @@
 % title=post.title
 % rebase base **locals()
 <link rel=up href="/posts" title="{{post.repo.description}}">
-
+<article>
 {{! helpers.sanitize_html(post.content)}}
-
+</article>
 <nav>
   <ul>
     <li><a href="{{post.filename}}/edit">📝 Edit</a>

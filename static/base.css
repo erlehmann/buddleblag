@@ -71,7 +71,7 @@ h1 {
  margin-bottom: 0.5em;
 }
 
-section h1, nav h1, article h1, aside h1,
+section h1, nav h1, article h1, aside h1, .wysihtml5-editor h1,
 h2 {
  font-size: 2em;
  margin-bottom: 0.75em;
@@ -79,7 +79,7 @@ h2 {
 
 section section h1, section nav h1, section article h1, section aside h1,
 article section h1, article nav h1, article article h2, article aside h1,
-section h2, nav h2, article h2, aside h2,
+section h2, nav h2, article h2, aside h2, .wysihtml5-editor h2,
 h3 {
  font-size: 1.5em;
  line-height: 1.33;
